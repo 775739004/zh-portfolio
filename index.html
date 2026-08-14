@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>周辉 (Jimmy) - 3D视觉设计师 / 动画师个人作品集</title>
     
-    <!-- Tailwind CSS 官方 CDN -->
+    <!-- Tailwind CSS 官方 CDN (全网/国内高可用) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- React 18 & ReactDOM CDN -->
+    <!-- React 18 & ReactDOM 极速高兼容 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js" crossorigin></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js" crossorigin></script>
     
-    <!-- Babel Standalone -->
+    <!-- Babel Standalone 实时编译 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.23.10/babel.min.js" crossorigin></script>
 
     <!-- Google Fonts 字体库 -->
@@ -99,7 +99,14 @@
         border-radius: 16px;
         position: relative;
         transition: transform .35s ease, box-shadow .35s ease;
-        background: #0f172a;
+        background: #f1f5f9;
+      }
+
+      .gallery-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
       }
 
       .gallery-card:hover {
@@ -108,6 +115,7 @@
         box-shadow: 0 20px 35px rgba(0,0,0,0.12);
       }
 
+      /* 极致高清画质修复与防拖拽 */
       img {
         -webkit-user-drag: none;
         -khtml-user-drag: none;
@@ -115,7 +123,7 @@
         -o-user-drag: none;
         user-select: none;
         -webkit-user-select: none;
-        image-rendering: auto;
+        image-rendering: auto; /* 保证 3D 渲染图平滑过渡，消除锯齿 */
       }
 
       ::-webkit-scrollbar { width: 8px; }
@@ -127,15 +135,6 @@
       .custom-modal-scroll::-webkit-scrollbar-track { background: transparent; margin: 12px 0; }
       .custom-modal-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
       .custom-modal-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-
-      /* 脉冲加载动画 */
-      @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: .4; }
-      }
-      .animate-pulse-custom {
-        animation: pulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-      }
     </style>
 </head>
 <body class="bg-white text-slate-900 antialiased select-none" oncontextmenu="return false;" ondragstart="return false;">
@@ -143,49 +142,6 @@
 
     <script type="text/babel">
       const { useState, useEffect, useRef, useMemo } = React;
-
-      // 带骨架屏与优雅淡入加载的智能图片组件
-      const ImageWithSkeleton = ({ src, alt, className = "", style = {}, objectFit = "cover" }) => {
-        const [loaded, setLoaded] = useState(false);
-        const [error, setError] = useState(false);
-
-        return (
-          <div className="relative w-full h-full overflow-hidden bg-slate-800/80 flex items-center justify-center">
-            {/* 未加载时显示的骨架屏 */}
-            {!loaded && !error && (
-              <div className="absolute inset-0 bg-slate-800 animate-pulse-custom flex flex-col items-center justify-center gap-2 z-10">
-                <div className="w-6 h-6 border-2 border-slate-500 border-t-blue-500 rounded-full animate-spin"></div>
-                <span className="text-[10px] text-slate-400 font-medium">加载中...</span>
-              </div>
-            )}
-
-            {/* 加载失败提示 */}
-            {error && (
-              <div className="absolute inset-0 bg-slate-900 flex flex-col items-center justify-center p-2 text-center z-10">
-                <span className="text-xs text-slate-400 mb-1">⚠️ 图片加载失败</span>
-                <button 
-                  onClick={() => { setError(false); setLoaded(false); }}
-                  className="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-1 rounded border border-slate-700 transition-colors"
-                >
-                  重试
-                </button>
-              </div>
-            )}
-
-            {/* 真实图片 */}
-            <img 
-              src={src} 
-              alt={alt || "Image"} 
-              loading="lazy"
-              decoding="async"
-              onLoad={() => setLoaded(true)}
-              onError={() => setError(true)}
-              className={`w-full h-full transition-opacity duration-500 ease-out ${loaded ? 'opacity-100' : 'opacity-0'} ${className}`}
-              style={{ objectFit, ...style }}
-            />
-          </div>
-        );
-      };
 
       const personalInfo = {
         name: "周辉",
@@ -225,15 +181,69 @@
       ];
 
       const projectExperiences = [
-        { name: "某部队全息 Cave 屏设计", role: "3D设计组长", period: "2025.01 - 2025.06", desc: "部队信息化作战 2000 平方 CAVE 屏和全息屏制作（项目费用过亿，已落地）。", tag: "过亿 / 已落地" },
-        { name: "苏州科技馆", role: "3D设计组长", period: "2024.06 - 2024.09", desc: "直径 26 米的球幕，虚拟沉浸式影片制作（项目费用过亿，已落地）。", tag: "过亿 / 已落地" },
-        { name: "深圳体育场", role: "3D设计组长", period: "2023.06 - 2024.09", desc: "深圳体育场巨型屏开合设计，全球第一例开合稳定毫米级精度对接（项目费用过亿，已落地）。", tag: "过亿 / 已落地" },
-        { name: "上海八万人体育场", role: "3D设计组长", period: "2021.05 - 2022.02", desc: "近 10000 平的体育场天幕夜景亮化设计（项目费用过亿，已落地）。", tag: "过亿 / 已落地" },
-        { name: "华为会议一体机", role: "3D设计组长", period: "2021.06 - 2021.12", desc: "消费级产品华为会议一体机，设计外观制作售后安装动画（项目费用过亿，已上线各大电商平台）。", tag: "过亿 / 电商上线" },
-        { name: "上海三思 LED 灯具产品", role: "3D设计组长", period: "2021.06 - 2021.12", desc: "消费级产品各类 LED 灯具动态视频制作，产品网页效果图设计（已上线各大电商平台）。", tag: "电商上线" },
-        { name: "埃及新首都 CBD", role: "3D设计师", period: "2020.06 - 2020.09", desc: "埃及新首都 CBD 城市夜景亮化设计、产品效果、动态视觉（项目费用过十亿，部分已落地）。", tag: "过十亿 / 部分落地" },
-        { name: "成都天府机场", role: "3D设计师", period: "2018.04 - 2019.04", desc: "机场建筑外立面夜景亮化设计（项目费用过亿，已落地）。", tag: "过亿 / 已落地" },
-        { name: "杭州萧山机场", role: "3D设计师", period: "2017.06 - 2017.10", desc: "机场建筑外立面夜景亮化设计（项目费用过亿，已落地）。", tag: "过亿 / 已落地" }
+        {
+          name: "某部队全息 Cave 屏设计",
+          role: "3D设计组长",
+          period: "2025.01 - 2025.06",
+          desc: "部队信息化作战 2000 平方 CAVE 屏和全息屏制作（项目费用过亿，已落地）。",
+          tag: "过亿 / 已落地"
+        },
+        {
+          name: "苏州科技馆",
+          role: "3D设计组长",
+          period: "2024.06 - 2024.09",
+          desc: "直径 26 米的球幕，虚拟沉浸式影片制作（项目费用过亿，已落地）。",
+          tag: "过亿 / 已落地"
+        },
+        {
+          name: "深圳体育场",
+          role: "3D设计组长",
+          period: "2023.06 - 2024.09",
+          desc: "深圳体育场巨型屏开合设计，全球第一例开合稳定毫米级精度对接（项目费用过亿，已落地）。",
+          tag: "过亿 / 已落地"
+        },
+        {
+          name: "上海八万人体育场",
+          role: "3D设计组长",
+          period: "2021.05 - 2022.02",
+          desc: "近 10000 平的体育场天幕夜景亮化设计（项目费用过亿，已落地）。",
+          tag: "过亿 / 已落地"
+        },
+        {
+          name: "华为会议一体机",
+          role: "3D设计组长",
+          period: "2021.06 - 2021.12",
+          desc: "消费级产品华为会议一体机，设计外观制作售后安装动画（项目费用过亿，已上线各大电商平台）。",
+          tag: "过亿 / 电商上线"
+        },
+        {
+          name: "上海三思 LED 灯具产品",
+          role: "3D设计组长",
+          period: "2021.06 - 2021.12",
+          desc: "消费级产品各类 LED 灯具动态视频制作，产品网页效果图设计（已上线各大电商平台）。",
+          tag: "电商上线"
+        },
+        {
+          name: "埃及新首都 CBD",
+          role: "3D设计师",
+          period: "2020.06 - 2020.09",
+          desc: "埃及新首都 CBD 城市夜景亮化设计、产品效果、动态视觉（项目费用过十亿，部分已落地）。",
+          tag: "过十亿 / 部分落地"
+        },
+        {
+          name: "成都天府机场",
+          role: "3D设计师",
+          period: "2018.04 - 2019.04",
+          desc: "机场建筑外立面夜景亮化设计（项目费用过亿，已落地）。",
+          tag: "过亿 / 已落地"
+        },
+        {
+          name: "杭州萧山机场",
+          role: "3D设计师",
+          period: "2017.06 - 2017.10",
+          desc: "机场建筑外立面夜景亮化设计（项目费用过亿，已落地）。",
+          tag: "过亿 / 已落地"
+        }
       ];
 
       const education = [
@@ -246,15 +256,51 @@
           categoryName: "动态视频 & 交互开发",
           desc: "虚幻引擎 UE5 动画 / 展厅漫游 / 汽车动态表现",
           items: [
-            { id: "v1", title: "Porsche Panamera", brand: "汽车动态视频设计", img: "https://i.postimg.cc/jdXbwCvQ/porsche.webp", videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=116407555591280&bvid=BV1v7QjBiEYt&cid=37523032809&p=1" },
-            { id: "v2", title: "建筑漫游", brand: "建筑漫游动态视频设计", img: "https://i.postimg.cc/x8bw3YmL/jian-zhu-man-you.webp", videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087854988764&bvid=BV1kggp6cEjt&cid=40875919034&p=1" },
-            { id: "v3", title: "扫地机器人", brand: "扫地机器人动态视频设计", img: "https://i.postimg.cc/F152PqbL/sao-de-ji-qi-ren.webp", videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087871699004&bvid=BV1pMgp6aEU7&cid=40875921331&p=1" },
-            { id: "v4", title: "雪花啤酒", brand: "雪花啤酒动态视频设计", img: "https://i.postimg.cc/LhKry7k3/xue-hua-pi-jiu.webp", videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087871698951&bvid=BV1pMgp6aEUK&cid=40875920243&p=1" },
-            { id: "v5", title: "RIO鸡尾酒", brand: "RIO鸡尾酒动态视频设计", img: "https://i.postimg.cc/sD3FhF2k/RIO-ji-wei-jiu.webp", videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087787812077&bvid=BV1JLgp6oEtq&cid=40875263174&p=1" },
-            { id: "v6", title: "机械手表", brand: "机械手表动态设计", img: "https://i.postimg.cc/fy0GfZdx/ji-xie-shou-biao.webp", videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087771035346&bvid=BV1PUgp6NEhR&cid=40874213908&p=1" },
-            { id: "v7", title: "XBOX游戏手柄", brand: "XBOX游戏手柄动态设计", img: "https://i.postimg.cc/d3TbjvCd/XBOX-shou-bing.webp", videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087452268426&bvid=BV1X3gW6EEDy&cid=40872447366&p=1" },
-            { id: "v8", title: "室内可视化交互设计", brand: "室内交互设计", img: "https://i.postimg.cc/g25J32x7/shinei.webp", videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=317694844&bvid=BV1YP411W7Jc&cid=1246777944&p=1" },
-            { id: "v9", title: "奔驰交互设计", brand: "汽车交互设计", img: "https://i.postimg.cc/W1K301dX/benz.webp", videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=113577574795283&bvid=BV14tzZY7EYM&cid=27127451276&p=1" }
+            { 
+              id: "v1", title: "Porsche Panamera", brand: "汽车动态视频设计", 
+              img: "https://i.postimg.cc/jdXbwCvQ/porsche.webp", 
+              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=116407555591280&bvid=BV1v7QjBiEYt&cid=37523032809&p=1" 
+            },
+            { 
+              id: "v2", title: "建筑漫游", brand: "建筑漫游动态视频设计", 
+              img: "https://i.postimg.cc/x8bw3YmL/jian-zhu-man-you.webp", 
+              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087854988764&bvid=BV1kggp6cEjt&cid=40875919034&p=1" 
+            },
+            { 
+              id: "v3", title: "扫地机器人", brand: "扫地机器人动态视频设计", 
+              img: "https://i.postimg.cc/F152PqbL/sao-de-ji-qi-ren.webp", 
+              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087871699004&bvid=BV1pMgp6aEU7&cid=40875921331&p=1" 
+            },
+            { 
+              id: "v4", title: "雪花啤酒", brand: "雪花啤酒动态视频设计", 
+              img: "https://i.postimg.cc/LhKry7k3/xue-hua-pi-jiu.webp", 
+              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087871698951&bvid=BV1pMgp6aEUK&cid=40875920243&p=1" 
+            },
+            { 
+              id: "v5", title: "RIO鸡尾酒", brand: "RIO鸡尾酒动态视频设计", 
+              img: "https://i.postimg.cc/sD3FhF2k/RIO-ji-wei-jiu.webp", 
+              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087787812077&bvid=BV1JLgp6oEtq&cid=40875263174&p=1" 
+            },
+            { 
+              id: "v6", title: "机械手表", brand: "机械手表动态设计", 
+              img: "https://i.postimg.cc/fy0GfZdx/ji-xie-shou-biao.webp", 
+              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087771035346&bvid=BV1PUgp6NEhR&cid=40874213908&p=1" 
+            },
+            { 
+              id: "v7", title: "XBOX游戏手柄", brand: "XBOX游戏手柄动态设计", 
+              img: "https://i.postimg.cc/d3TbjvCd/XBOX-shou-bing.webp", 
+              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087452268426&bvid=BV1X3gW6EEDy&cid=40872447366&p=1" 
+            },
+            { 
+              id: "v8", title: "室内可视化交互设计", brand: "室内交互设计", 
+              img: "https://i.postimg.cc/g25J32x7/shinei.webp", 
+              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=317694844&bvid=BV1YP411W7Jc&cid=1246777944&p=1" 
+            },
+            { 
+              id: "v9", title: "奔驰交互设计", brand: "汽车交互设计", 
+              img: "https://i.postimg.cc/W1K301dX/benz.webp", 
+              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=113577574795283&bvid=BV14tzZY7EYM&cid=27127451276&p=1" 
+            }
           ]
         },
         {
@@ -264,112 +310,112 @@
           items: [
             { 
               id: "p1", title: "SUNBURST CITRUS", brand: "饮料", 
-              img: "./image/YinLiao/YinLiao04.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao04.webp",
               aspectRatio: "1792 / 2400",
               comparisons: [
-                { before: "./image/YinLiao/YinLiao09.webp", after: "./image/YinLiao/YinLiao01.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YinLiao/YinLiao10.webp", after: "./image/YinLiao/YinLiao02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YinLiao/YinLiao11.webp", after: "./image/YinLiao/YinLiao03.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YinLiao/YinLiao12.webp", after: "./image/YinLiao/YinLiao04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YinLiao/YinLiao13.webp", after: "./image/YinLiao/YinLiao05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YinLiao/YinLiao14.webp", after: "./image/YinLiao/YinLiao06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YinLiao/YinLiao15.webp", after: "./image/YinLiao/YinLiao07.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YinLiao/YinLiao16.webp", after: "./image/YinLiao/YinLiao08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao09.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao01.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao10.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao11.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao03.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao12.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao13.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao14.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao15.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao07.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao16.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YinLiao/YinLiao08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p2", title: "HYDRATION", brand: "运动产品", 
-              img: "./image/YunDongShuiHu/YunDongShuiHu04.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu04.webp",
               comparisons: [
-                { before: "./image/YunDongShuiHu/YunDongShuiHu01.webp", after: "./image/YunDongShuiHu/YunDongShuiHu02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YunDongShuiHu/YunDongShuiHu03.webp", after: "./image/YunDongShuiHu/YunDongShuiHu04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YunDongShuiHu/YunDongShuiHu05.webp", after: "./image/YunDongShuiHu/YunDongShuiHu06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YunDongShuiHu/YunDongShuiHu07.webp", after: "./image/YunDongShuiHu/YunDongShuiHu08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YunDongShuiHu/YunDongShuiHu09.webp", after: "./image/YunDongShuiHu/YunDongShuiHu11.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/YunDongShuiHu/YunDongShuiHu10.webp", after: "./image/YunDongShuiHu/YunDongShuiHu12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu01.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu03.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu05.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu07.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu09.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu11.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu10.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/YunDongShuiHu/YunDongShuiHu12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p3", title: "电动牙刷", brand: "3C产品", 
-              img: "./image/DianDongYaShua/DianDongYaShua08.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua08.webp",
               comparisons: [
-                { before: "./image/DianDongYaShua/DianDongYaShua01.webp", after: "./image/DianDongYaShua/DianDongYaShua04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/DianDongYaShua/DianDongYaShua02.webp", after: "./image/DianDongYaShua/DianDongYaShua05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/DianDongYaShua/DianDongYaShua03.webp", after: "./image/DianDongYaShua/DianDongYaShua06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/DianDongYaShua/DianDongYaShua07.webp", after: "./image/DianDongYaShua/DianDongYaShua08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/DianDongYaShua/DianDongYaShua09.webp", after: "./image/DianDongYaShua/DianDongYaShua14.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/DianDongYaShua/DianDongYaShua10.webp", after: "./image/DianDongYaShua/DianDongYaShua15.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/DianDongYaShua/DianDongYaShua11.webp", after: "./image/DianDongYaShua/DianDongYaShua16.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/DianDongYaShua/DianDongYaShua12.webp", after: "./image/DianDongYaShua/DianDongYaShua17.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/DianDongYaShua/DianDongYaShua13.webp", after: "./image/DianDongYaShua/DianDongYaShua18.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/DianDongYaShua/DianDongYaShua19.webp", after: "./image/DianDongYaShua/DianDongYaShua20.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua01.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua02.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua03.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua07.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua09.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua14.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua10.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua15.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua11.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua16.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua12.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua17.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua13.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua18.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua19.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/DianDongYaShua/DianDongYaShua20.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p4", title: "扫地机器人", brand: "家电产品", 
-              img: "./image/SaoDiJiQiRen/SaoDiJiQiRen02.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen02.webp",
               comparisons: [
-                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen07.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen01.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen08.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen09.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen03.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen10.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen11.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen12.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen07.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen01.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen08.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen09.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen03.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen10.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen11.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen12.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/SaoDiJiQiRen/SaoDiJiQiRen06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p5", title: "手持风扇", brand: "3C产品", 
-              img: "./image/ShouChiFengShan/ShouChiFengShan05.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan05.webp",
               aspectRatio: "1536 / 2752",
               comparisons: [
-                { before: "./image/ShouChiFengShan/ShouChiFengShan01.webp", after: "./image/ShouChiFengShan/ShouChiFengShan04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/ShouChiFengShan/ShouChiFengShan02.webp", after: "./image/ShouChiFengShan/ShouChiFengShan05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/ShouChiFengShan/ShouChiFengShan03.webp", after: "./image/ShouChiFengShan/ShouChiFengShan06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/ShouChiFengShan/ShouChiFengShan07.webp", after: "./image/ShouChiFengShan/ShouChiFengShan09.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/ShouChiFengShan/ShouChiFengShan08.webp", after: "./image/ShouChiFengShan/ShouChiFengShan10.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/ShouChiFengShan/ShouChiFengShan11.webp", after: "./image/ShouChiFengShan/ShouChiFengShan12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan01.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan02.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan03.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan07.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan09.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan08.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan10.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan11.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShouChiFengShan/ShouChiFengShan12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p6", title: "鼠标", brand: "3C产品", 
-              img: "./image/ShuBiao/ShuBiao11.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao11.webp",
               comparisons: [
-                { before: "./image/ShuBiao/ShuBiao01.webp", after: "./image/ShuBiao/ShuBiao08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/ShuBiao/ShuBiao02.webp", after: "./image/ShuBiao/ShuBiao09.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/ShuBiao/ShuBiao03.webp", after: "./image/ShuBiao/ShuBiao10.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/ShuBiao/ShuBiao04.webp", after: "./image/ShuBiao/ShuBiao11.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/ShuBiao/ShuBiao05.webp", after: "./image/ShuBiao/ShuBiao12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/ShuBiao/ShuBiao06.webp", after: "./image/ShuBiao/ShuBiao13.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/ShuBiao/ShuBiao07.webp", after: "./image/ShuBiao/ShuBiao14.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao01.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao02.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao09.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao03.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao10.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao04.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao11.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao05.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao06.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao13.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao07.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShuBiao/ShuBiao14.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p7", title: "剃须刀", brand: "3C产品", 
-              img: "./image/TiXuDao/TiXuDao02.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao02.webp",
               comparisons: [
-                { before: "./image/TiXuDao/TiXuDao01.webp", after: "./image/TiXuDao/TiXuDao02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/TiXuDao/TiXuDao03.webp", after: "./image/TiXuDao/TiXuDao07.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/TiXuDao/TiXuDao04.webp", after: "./image/TiXuDao/TiXuDao08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/TiXuDao/TiXuDao05.webp", after: "./image/TiXuDao/TiXuDao09.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/TiXuDao/TiXuDao06.webp", after: "./image/TiXuDao/TiXuDao10.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/TiXuDao/TiXuDao11.webp", after: "./image/TiXuDao/TiXuDao12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/TiXuDao/TiXuDao13.webp", after: "./image/TiXuDao/TiXuDao14.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao01.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao03.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao07.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao04.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao05.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao09.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao06.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao10.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao11.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao13.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/TiXuDao/TiXuDao14.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p8", title: "宝马M4", brand: "汽车", 
-              img: "./image/BMW-M4/BMW-M402.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M402.webp",
               comparisons: [
-                { before: "./image/BMW-M4/BMW-M417.webp", after: "./image/BMW-M4/BMW-M407.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/BMW-M4/BMW-M418.webp", after: "./image/BMW-M4/BMW-M408.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/BMW-M4/BMW-M412.webp", after: "./image/BMW-M4/BMW-M402.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/BMW-M4/BMW-M413.webp", after: "./image/BMW-M4/BMW-M403.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/BMW-M4/BMW-M414.webp", after: "./image/BMW-M4/BMW-M404.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/BMW-M4/BMW-M420.webp", after: "./image/BMW-M4/BMW-M410.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/BMW-M4/BMW-M411.webp", after: "./image/BMW-M4/BMW-M401.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/BMW-M4/BMW-M415.webp", after: "./image/BMW-M4/BMW-M405.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/BMW-M4/BMW-M416.webp", after: "./image/BMW-M4/BMW-M406.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "./image/BMW-M4/BMW-M419.webp", after: "./image/BMW-M4/BMW-M409.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M417.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M407.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M418.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M408.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M412.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M402.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M413.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M403.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M414.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M404.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M420.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M410.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M411.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M401.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M415.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M405.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M416.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M406.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M419.webp", after: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/BMW-M4/BMW-M409.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             }
           ]
@@ -381,61 +427,61 @@
           items: [
             { 
               id: "i1", title: "沙漠酒店", brand: "空间渲染", 
-              img: "./image/ShaMoJiuDian/ShaMoJiuDian10.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShaMoJiuDian/ShaMoJiuDian10.webp",
               gallery: [
-                "./image/ShaMoJiuDian/ShaMoJiuDian01.webp",
-                "./image/ShaMoJiuDian/ShaMoJiuDian02.webp",
-                "./image/ShaMoJiuDian/ShaMoJiuDian03.webp",
-                "./image/ShaMoJiuDian/ShaMoJiuDian04.webp",
-                "./image/ShaMoJiuDian/ShaMoJiuDian05.webp",
-                "./image/ShaMoJiuDian/ShaMoJiuDian06.webp",
-                "./image/ShaMoJiuDian/ShaMoJiuDian07.webp",
-                "./image/ShaMoJiuDian/ShaMoJiuDian08.webp",
-                "./image/ShaMoJiuDian/ShaMoJiuDian09.webp",
-                "./image/ShaMoJiuDian/ShaMoJiuDian10.webp"
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShaMoJiuDian/ShaMoJiuDian01.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShaMoJiuDian/ShaMoJiuDian02.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShaMoJiuDian/ShaMoJiuDian03.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShaMoJiuDian/ShaMoJiuDian04.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShaMoJiuDian/ShaMoJiuDian05.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShaMoJiuDian/ShaMoJiuDian06.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShaMoJiuDian/ShaMoJiuDian07.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShaMoJiuDian/ShaMoJiuDian08.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShaMoJiuDian/ShaMoJiuDian09.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ShaMoJiuDian/ShaMoJiuDian10.webp"
               ]
             },
             { 
               id: "i2", title: "万豪酒店", brand: "空间渲染", 
-              img: "./image/WanHaoJiuDian/WanHaoJiuDian2.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/WanHaoJiuDian/WanHaoJiuDian2.webp",
               gallery: [
-                "./image/WanHaoJiuDian/WanHaoJiuDian1.webp",
-                "./image/WanHaoJiuDian/WanHaoJiuDian2.webp",
-                "./image/WanHaoJiuDian/WanHaoJiuDian3.webp",
-                "./image/WanHaoJiuDian/WanHaoJiuDian4.webp",
-                "./image/WanHaoJiuDian/WanHaoJiuDian5.webp",
-                "./image/WanHaoJiuDian/WanHaoJiuDian6.webp",
-                "./image/WanHaoJiuDian/WanHaoJiuDian7.webp",
-                "./image/WanHaoJiuDian/WanHaoJiuDian8.webp",
-                "./image/WanHaoJiuDian/WanHaoJiuDian9.webp"
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/WanHaoJiuDian/WanHaoJiuDian1.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/WanHaoJiuDian/WanHaoJiuDian2.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/WanHaoJiuDian/WanHaoJiuDian3.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/WanHaoJiuDian/WanHaoJiuDian4.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/WanHaoJiuDian/WanHaoJiuDian5.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/WanHaoJiuDian/WanHaoJiuDian6.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/WanHaoJiuDian/WanHaoJiuDian7.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/WanHaoJiuDian/WanHaoJiuDian8.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/WanHaoJiuDian/WanHaoJiuDian9.webp"
               ]
             },
             { 
               id: "i3", title: "悬崖海边别墅", brand: "空间渲染", 
-              img: "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua08.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua08.webp",
               gallery: [
-                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua01.webp",
-                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua02.webp",
-                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua03.webp",
-                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua04.webp",
-                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua05.webp",
-                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua06.webp",
-                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua07.webp",
-                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua08.webp"
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua01.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua02.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua03.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua04.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua05.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua06.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua07.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua08.webp"
               ]
             },
             { 
               id: "i4", title: "中式别墅", brand: "空间渲染", 
-              img: "./image/ZhongShiBieShu/ZhongShiBieShu01.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ZhongShiBieShu/ZhongShiBieShu01.webp",
               gallery: [
-                "./image/ZhongShiBieShu/ZhongShiBieShu02.webp",
-                "./image/ZhongShiBieShu/ZhongShiBieShu03.webp",
-                "./image/ZhongShiBieShu/ZhongShiBieShu04.webp",
-                "./image/ZhongShiBieShu/ZhongShiBieShu05.webp",
-                "./image/ZhongShiBieShu/ZhongShiBieShu06.webp",
-                "./image/ZhongShiBieShu/ZhongShiBieShu01.webp",
-                "./image/ZhongShiBieShu/ZhongShiBieShu07.webp",
-                "./image/ZhongShiBieShu/ZhongShiBieShu08.webp"
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ZhongShiBieShu/ZhongShiBieShu02.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ZhongShiBieShu/ZhongShiBieShu03.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ZhongShiBieShu/ZhongShiBieShu04.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ZhongShiBieShu/ZhongShiBieShu05.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ZhongShiBieShu/ZhongShiBieShu06.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ZhongShiBieShu/ZhongShiBieShu01.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ZhongShiBieShu/ZhongShiBieShu07.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/ZhongShiBieShu/ZhongShiBieShu08.webp"
               ]
             }
           ]
@@ -448,19 +494,19 @@
             { 
               id: "s1", title: "武士刀", brand: "模型材质", 
               desc: "硬表面做旧，刀刃血槽与护手处的划痕、氧化、泥线等复杂分层材质刻画。",
-              img: "./image/CiShiDai/AK04.webp",
+              img: "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/AK04.webp",
               gallery: [
-                "./image/CiShiDai/AK01.webp",
-                "./image/CiShiDai/AK02.webp",
-                "./image/CiShiDai/AK03.webp",
-                "./image/CiShiDai/AK04.webp",
-                "./image/CiShiDai/AK05.webp",
-                "./image/CiShiDai/TangDao01.webp",
-                "./image/CiShiDai/TangDao02.webp",
-                "./image/CiShiDai/TangDao03.webp",
-                "./image/CiShiDai/TangDao04.webp",
-                "./image/CiShiDai/TangDao05.webp",
-                "./image/CiShiDai/TangDao06.webp"
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/AK01.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/AK02.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/AK03.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/AK04.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/AK05.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/TangDao01.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/TangDao02.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/TangDao03.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/TangDao04.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/TangDao05.webp",
+                "https://cdn.jsdelivr.net/gh/775739004/zh-portfolio@main/image/CiShiDai/TangDao06.webp"
               ]
             }
           ]
@@ -472,6 +518,7 @@
         after, 
         beforeLabel = "Before", 
         afterLabel = "After", 
+        aspectRatio = "16 / 9",
         scale = 1,
         pos = { x: 0, y: 0 }
       }) => {
@@ -490,10 +537,26 @@
         };
 
         useEffect(() => {
-          const onMouseMove = (e) => { if (isDraggingRef.current) handleMove(e.clientX); };
-          const onMouseUp = () => { if (isDraggingRef.current) isDraggingRef.current = false; };
-          const onTouchMove = (e) => { if (isDraggingRef.current && e.touches.length > 0) handleMove(e.touches[0].clientX); };
-          const onTouchEnd = () => { if (isDraggingRef.current) isDraggingRef.current = false; };
+          const onMouseMove = (e) => {
+            if (isDraggingRef.current) {
+              handleMove(e.clientX);
+            }
+          };
+          const onMouseUp = () => {
+            if (isDraggingRef.current) {
+              isDraggingRef.current = false;
+            }
+          };
+          const onTouchMove = (e) => {
+            if (isDraggingRef.current && e.touches.length > 0) {
+              handleMove(e.touches[0].clientX);
+            }
+          };
+          const onTouchEnd = () => {
+            if (isDraggingRef.current) {
+              isDraggingRef.current = false;
+            }
+          };
 
           window.addEventListener('mousemove', onMouseMove);
           window.addEventListener('mouseup', onMouseUp);
@@ -522,12 +585,15 @@
             ref={containerRef}
             className="relative w-full h-full overflow-hidden select-none bg-slate-900 group"
           >
-            {/* 底层渲染图 (After) */}
+            {/* 底层渲染图 (After) - 接收位移与缩放 */}
             <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
-              <ImageWithSkeleton 
+              <img 
                 src={after} 
                 alt={afterLabel} 
-                objectFit="contain"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-contain pointer-events-none transition-transform duration-75 ease-out" 
+                draggable="false"
                 style={transformStyle}
               />
             </div>
@@ -537,14 +603,18 @@
               className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10"
               style={{ clipPath: `polygon(0 0, ${sliderPos}% 0, ${sliderPos}% 100%, 0 100%)` }}
             >
-              <ImageWithSkeleton 
+              <img 
                 src={before} 
                 alt={beforeLabel} 
-                objectFit="contain"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-contain pointer-events-none transition-transform duration-75 ease-out" 
+                draggable="false"
                 style={transformStyle}
               />
             </div>
 
+            {/* 标签提示 */}
             <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full pointer-events-none font-medium border border-white/20 z-20">
               {beforeLabel}
             </div>
@@ -552,11 +622,18 @@
               {afterLabel}
             </div>
 
+            {/* 对比分割分割线手柄 */}
             <div 
               className="slider-handle-line absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] cursor-ew-resize z-30"
               style={{ left: `${sliderPos}%` }}
-              onMouseDown={(e) => { e.stopPropagation(); handleStart(e.clientX); }}
-              onTouchStart={(e) => { e.stopPropagation(); handleStart(e.touches[0].clientX); }}
+              onMouseDown={(e) => {
+                 e.stopPropagation();
+                 handleStart(e.clientX);
+              }}
+              onTouchStart={(e) => {
+                 e.stopPropagation();
+                 handleStart(e.touches[0].clientX);
+              }}
             >
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.4)] flex items-center justify-center text-slate-800 border-2 border-slate-100">
                 <svg className="w-4 h-4 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -614,9 +691,15 @@
         return (
           <div 
             className="fixed inset-0 z-[110] flex flex-col items-center justify-center bg-black/90 backdrop-blur-md p-4"
-            onMouseDown={(e) => { if (e.target === e.currentTarget) backdropMouseDownRef.current = true; }}
+            onMouseDown={(e) => {
+              if (e.target === e.currentTarget) {
+                backdropMouseDownRef.current = true;
+              }
+            }}
             onMouseUp={(e) => {
-              if (e.target === e.currentTarget && backdropMouseDownRef.current) onClose();
+              if (e.target === e.currentTarget && backdropMouseDownRef.current) {
+                onClose();
+              }
               backdropMouseDownRef.current = false;
             }}
             onWheel={handleWheel}
@@ -640,7 +723,9 @@
               onClick={onClose}
               className="absolute top-6 right-6 z-50 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-white font-bold flex items-center justify-center transition-all border border-white/20 shadow-lg text-lg"
               title="关闭对比"
-            >✕</button>
+            >
+              ✕
+            </button>
             
             <div 
               className="relative flex items-center justify-center rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-slate-900"
@@ -667,6 +752,7 @@
                 after={item.after}
                 beforeLabel={item.beforeLabel}
                 afterLabel={item.afterLabel}
+                aspectRatio={ratioStr}
                 scale={scale}
                 pos={pos}
               />
@@ -721,7 +807,9 @@
         return (
           <div 
             className="fixed inset-0 z-[110] flex flex-col items-center justify-center bg-black/90 backdrop-blur-md p-4"
-            onMouseDown={(e) => { if (e.target === e.currentTarget) backdropMouseDownRef.current = true; }}
+            onMouseDown={(e) => {
+              if (e.target === e.currentTarget) backdropMouseDownRef.current = true;
+            }}
             onMouseUp={(e) => {
               if (e.target === e.currentTarget && backdropMouseDownRef.current) onClose();
               backdropMouseDownRef.current = false;
@@ -763,10 +851,13 @@
                  else { setScale(1); setPos({x:0, y:0}); }
               }}
             >
-              <ImageWithSkeleton 
+              <img 
                 src={imgUrl} 
                 alt="Enlarged view" 
-                objectFit="contain"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+                className="max-w-full max-h-[85vh] object-contain transition-transform duration-75 ease-out cursor-pointer" 
                 style={{
                   transform: `scale(${scale}) translate(${pos.x / scale}px, ${pos.y / scale}px)`
                 }}
@@ -797,7 +888,9 @@
                   onClick={onClose}
                   className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-900 flex items-center justify-center transition-colors font-bold text-lg"
                   title="关闭"
-                >✕</button>
+                >
+                  ✕
+                </button>
               </div>
 
               <div className="flex-1 overflow-y-auto custom-modal-scroll p-6 md:p-10 space-y-10">
@@ -946,7 +1039,9 @@
           setCurrentTranslate(next);
         };
 
-        const handleEnd = () => { setIsDragging(false); };
+        const handleEnd = () => {
+          setIsDragging(false);
+        };
 
         return (
           <div className="gallery-wrapper my-6 overflow-hidden">
@@ -972,13 +1067,13 @@
                     }
                   }}
                 >
-                  <ImageWithSkeleton src={item.img} alt={item.title} />
+                  <img src={item.img} alt={item.title} loading="lazy" decoding="async" />
                   {item.videoUrl && (
                     <div className="absolute top-2.5 right-2.5 bg-blue-600/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md backdrop-blur-sm flex items-center gap-1 z-10">
                       <span>▶</span> 视频
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex items-end p-3.5 pointer-events-none z-20">
+                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex items-end p-3.5 pointer-events-none">
                     <span className="text-white text-xs font-bold truncate">{item.title}</span>
                   </div>
                 </div>
@@ -1011,8 +1106,15 @@
             }
           };
 
-          const handleContextMenu = (e) => { e.preventDefault(); return false; };
-          const handleDragStart = (e) => { e.preventDefault(); return false; };
+          const handleContextMenu = (e) => {
+            e.preventDefault();
+            return false;
+          };
+
+          const handleDragStart = (e) => {
+            e.preventDefault();
+            return false;
+          };
 
           document.addEventListener('keydown', handleKeyDown);
           document.addEventListener('contextmenu', handleContextMenu);
@@ -1172,9 +1274,9 @@
                               className="group cursor-pointer rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all bg-slate-50"
                             >
                               <div className="aspect-[16/9] overflow-hidden relative">
-                                <ImageWithSkeleton src={item.img} alt={item.title} className="group-hover:scale-105 transition-transform duration-500" />
+                                <img src={item.img} alt={item.title} loading="lazy" decoding="async" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                 {item.videoUrl && (
-                                  <div className="absolute top-3 right-3 bg-blue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md z-10">
+                                  <div className="absolute top-3 right-3 bg-blue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md">
                                     ▶ 视频
                                   </div>
                                 )}
@@ -1191,7 +1293,7 @@
                   </div>
                 )
               ) : (
-                <div className="py-12 space-y-12">
+                <div className="py-12 space-y-12 animate-fadeIn">
                   <div className="flex items-center gap-4 text-sm font-semibold">
                     <button 
                       onClick={handleBackFromDetail}
@@ -1224,16 +1326,17 @@
                             className="group cursor-pointer rounded-2xl overflow-hidden border border-slate-100 bg-slate-900 relative shadow-md hover:shadow-xl transition-all"
                             style={{ aspectRatio: selectedProject.aspectRatio || '16 / 9' }}
                           >
-                            <ImageWithSkeleton 
+                            <img 
                               src={comp.after} 
                               alt={comp.afterLabel} 
-                              objectFit="contain"
-                              className="group-hover:scale-105 transition-transform duration-500"
+                              loading="lazy"
+                              decoding="async"
+                              className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" 
                             />
-                            <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full font-medium border border-white/20 z-10">
+                            <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full font-medium border border-white/20">
                               {comp.afterLabel}
                             </div>
-                            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
+                            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                               <span className="bg-white text-slate-900 text-xs font-bold px-4 py-2.5 rounded-full shadow-lg backdrop-blur-md transform group-hover:scale-105 transition-all flex items-center gap-1.5">
                                 🔍 点击全屏滑动对比
                               </span>
@@ -1256,16 +1359,17 @@
                             onClick={() => setSingleZoomImg(imgUrl)}
                             className="group cursor-pointer rounded-2xl overflow-hidden border border-slate-100 bg-slate-900 relative shadow-md hover:shadow-xl transition-all aspect-[16/9]"
                           >
-                            <ImageWithSkeleton 
+                            <img 
                               src={imgUrl} 
                               alt={`视角 ${idx + 1}`} 
-                              objectFit="contain"
-                              className="group-hover:scale-105 transition-transform duration-500"
+                              loading="lazy"
+                              decoding="async"
+                              className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" 
                             />
-                            <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full font-medium border border-white/20 z-10">
+                            <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full font-medium border border-white/20">
                               视角 {String.fromCharCode(65 + idx)}
                             </div>
-                            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
+                            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                               <span className="bg-white text-slate-900 text-xs font-bold px-4 py-2.5 rounded-full shadow-lg backdrop-blur-md transform group-hover:scale-105 transition-all flex items-center gap-1.5">
                                 🔍 点击全屏放大
                               </span>
