@@ -509,7 +509,15 @@
         }
       ];
 
-      const ImageCompareSlider = ({ before, after, beforeLabel = "Before", afterLabel = "After", aspectRatio = "16 / 9" }) => {
+      const ImageCompareSlider = ({ 
+        before, 
+        after, 
+        beforeLabel = "Before", 
+        afterLabel = "After", 
+        aspectRatio = "16 / 9",
+        scale = 1,
+        pos = { x: 0, y: 0 }
+      }) => {
         const [sliderPos, setSliderPos] = useState(50);
         const containerRef = useRef(null);
         const isDraggingRef = useRef(false);
@@ -564,39 +572,51 @@
           handleMove(clientX);
         };
 
+        const transformStyle = {
+          transform: `scale(${scale}) translate(${pos.x / scale}px, ${pos.y / scale}px)`
+        };
+
         return (
           <div 
             ref={containerRef}
             className="relative w-full h-full overflow-hidden select-none bg-slate-900 group"
           >
-            <img 
-              src={after} 
-              alt={afterLabel} 
-              className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
-              draggable="false"
-            />
+            {/* 底层渲染图 (After) - 接收位移与缩放 */}
+            <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+              <img 
+                src={after} 
+                alt={afterLabel} 
+                className="w-full h-full object-contain pointer-events-none transition-transform duration-75 ease-out" 
+                draggable="false"
+                style={transformStyle}
+              />
+            </div>
             
+            {/* 顶层白模图 (Before) - 仅图片进行位移与缩放，裁剪区域固定在中框 sliderPos 处 */}
             <div 
-              className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
+              className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10"
               style={{ clipPath: `polygon(0 0, ${sliderPos}% 0, ${sliderPos}% 100%, 0 100%)` }}
             >
               <img 
                 src={before} 
                 alt={beforeLabel} 
-                className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
+                className="w-full h-full object-contain pointer-events-none transition-transform duration-75 ease-out" 
                 draggable="false"
+                style={transformStyle}
               />
             </div>
 
-            <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full pointer-events-none font-medium border border-white/20">
+            {/* 标签提示（固定在外框上，不随拖拽平移） */}
+            <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full pointer-events-none font-medium border border-white/20 z-20">
               {beforeLabel}
             </div>
-            <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full pointer-events-none font-medium border border-white/20">
+            <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full pointer-events-none font-medium border border-white/20 z-20">
               {afterLabel}
             </div>
 
+            {/* 对比分割分割线手柄（永远钉在视口/框体对应 sliderPos 处，绝不随图片拖动跑偏） */}
             <div 
-              className="slider-handle-line absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] cursor-ew-resize z-20"
+              className="slider-handle-line absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] cursor-ew-resize z-30"
               style={{ left: `${sliderPos}%` }}
               onMouseDown={(e) => {
                  e.stopPropagation();
@@ -624,6 +644,12 @@
         const dragStart = useRef({ x: 0, y: 0 });
         const backdropMouseDownRef = useRef(false);
 
+        // 切换新图或重新打开时，重置放缩倍数和平移坐标
+        useEffect(() => {
+          setScale(1);
+          setPos({ x: 0, y: 0 });
+        }, [item]);
+
         if (!item) return null;
 
         const ratioStr = item.aspectRatio || '16 / 9';
@@ -632,16 +658,26 @@
           ? (parts[0] / parts[1]) 
           : (16 / 9);
 
+        // 滚轮缩放
         const handleWheel = (e) => {
           const delta = e.deltaY * -0.002;
-          setScale(s => Math.min(Math.max(1, s + delta), 5));
+          setScale(s => {
+            const next = Math.min(Math.max(1, s + delta), 5);
+            if (next === 1) setPos({ x: 0, y: 0 });
+            return next;
+          });
         };
 
+        // 拖拽平移限制
         const handlePanMove = (e) => {
           if (dragRef.current && scale > 1) {
+            const newX = e.clientX - dragStart.current.x;
+            const newY = e.clientY - dragStart.current.y;
+            const limitX = (scale - 1) * 350;
+            const limitY = (scale - 1) * 250;
             setPos({
-              x: e.clientX - dragStart.current.x,
-              y: e.clientY - dragStart.current.y
+              x: Math.max(-limitX, Math.min(limitX, newX)),
+              y: Math.max(-limitY, Math.min(limitY, newY))
             });
           }
         };
@@ -666,8 +702,13 @@
             onMouseUpCapture={handlePanEnd}
             onMouseLeave={handlePanEnd}
           >
+            {/* 顶栏操作按钮 */}
             <div className="absolute top-6 flex items-center gap-4 bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 z-50 text-white shadow-2xl">
-              <button onClick={() => setScale(s => Math.max(1, s - 0.5))} className="hover:text-blue-400 font-bold text-xl px-2">-</button>
+              <button onClick={() => setScale(s => {
+                const next = Math.max(1, s - 0.5);
+                if (next === 1) setPos({ x: 0, y: 0 });
+                return next;
+              })} className="hover:text-blue-400 font-bold text-xl px-2">-</button>
               <span className="text-sm font-medium w-16 text-center">{Math.round(scale * 100)}%</span>
               <button onClick={() => setScale(s => Math.min(5, s + 0.5))} className="hover:text-blue-400 font-bold text-xl px-2">+</button>
               <div className="w-px h-4 bg-white/30 mx-1"></div>
@@ -682,14 +723,14 @@
               ✕
             </button>
             
+            {/* 外层绝对固定展示框（居中固守，外框和对比分割线绝不变动偏移） */}
             <div 
-              className="relative flex items-center justify-center rounded-2xl overflow-hidden shadow-2xl transition-transform duration-100 ease-out"
+              className="relative flex items-center justify-center rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-slate-900"
               style={{
                 aspectRatio: ratioStr,
                 width: `min(90vw, calc(85vh * ${rVal}))`,
                 maxWidth: '90vw',
                 maxHeight: '85vh',
-                transform: `scale(${scale}) translate(${pos.x / scale}px, ${pos.y / scale}px)`
               }}
               onMouseDownCapture={(e) => {
                  if (scale > 1 && !e.target.closest('.slider-handle-line')) {
@@ -709,12 +750,14 @@
                 beforeLabel={item.beforeLabel}
                 afterLabel={item.afterLabel}
                 aspectRatio={ratioStr}
+                scale={scale}
+                pos={pos}
               />
             </div>
             
             {scale > 1 && (
                <div className="absolute bottom-8 text-white/50 text-xs font-medium pointer-events-none tracking-widest">
-                   拖拽可平移查看细节
+                   按住拖拽可平移查看细节
                </div>
             )}
           </div>
@@ -728,18 +771,31 @@
         const dragStart = useRef({ x: 0, y: 0 });
         const backdropMouseDownRef = useRef(false);
 
+        useEffect(() => {
+          setScale(1);
+          setPos({ x: 0, y: 0 });
+        }, [imgUrl]);
+
         if (!imgUrl) return null;
 
         const handleWheel = (e) => {
           const delta = e.deltaY * -0.002;
-          setScale(s => Math.min(Math.max(1, s + delta), 5));
+          setScale(s => {
+            const next = Math.min(Math.max(1, s + delta), 5);
+            if (next === 1) setPos({ x: 0, y: 0 });
+            return next;
+          });
         };
 
         const handlePanMove = (e) => {
           if (dragRef.current && scale > 1) {
+            const newX = e.clientX - dragStart.current.x;
+            const newY = e.clientY - dragStart.current.y;
+            const limitX = (scale - 1) * 350;
+            const limitY = (scale - 1) * 250;
             setPos({
-              x: e.clientX - dragStart.current.x,
-              y: e.clientY - dragStart.current.y
+              x: Math.max(-limitX, Math.min(limitX, newX)),
+              y: Math.max(-limitY, Math.min(limitY, newY))
             });
           }
         };
@@ -761,7 +817,11 @@
             onMouseLeave={handlePanEnd}
           >
             <div className="absolute top-6 flex items-center gap-4 bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 z-50 text-white shadow-2xl">
-              <button onClick={() => setScale(s => Math.max(1, s - 0.5))} className="hover:text-blue-400 font-bold text-xl px-2">-</button>
+              <button onClick={() => setScale(s => {
+                const next = Math.max(1, s - 0.5);
+                if (next === 1) setPos({ x: 0, y: 0 });
+                return next;
+              })} className="hover:text-blue-400 font-bold text-xl px-2">-</button>
               <span className="text-sm font-medium w-16 text-center">{Math.round(scale * 100)}%</span>
               <button onClick={() => setScale(s => Math.min(5, s + 0.5))} className="hover:text-blue-400 font-bold text-xl px-2">+</button>
               <div className="w-px h-4 bg-white/30 mx-1"></div>
@@ -774,14 +834,9 @@
               title="关闭图片"
             >✕</button>
 
-            <img 
-              src={imgUrl} 
-              alt="Enlarged view" 
-              draggable="false"
-              className="max-w-full max-h-[85vh] rounded-xl object-contain shadow-2xl transition-transform duration-100 ease-out cursor-pointer" 
-              style={{
-                transform: `scale(${scale}) translate(${pos.x / scale}px, ${pos.y / scale}px)`
-              }}
+            {/* 固定的视口外框容器 */}
+            <div 
+              className="relative max-w-[90vw] max-h-[85vh] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-slate-950 flex items-center justify-center"
               onMouseDown={(e) => {
                  if (scale > 1) {
                      e.preventDefault();
@@ -793,7 +848,18 @@
                  if (scale === 1) setScale(2.5);
                  else { setScale(1); setPos({x:0, y:0}); }
               }}
-            />
+            >
+              <img 
+                src={imgUrl} 
+                alt="Enlarged view" 
+                draggable="false"
+                className="max-w-full max-h-[85vh] object-contain transition-transform duration-75 ease-out cursor-pointer" 
+                style={{
+                  transform: `scale(${scale}) translate(${pos.x / scale}px, ${pos.y / scale}px)`
+                }}
+              />
+            </div>
+
             {scale > 1 && (
                <div className="absolute bottom-8 text-white/50 text-xs font-medium pointer-events-none tracking-widest">
                    拖拽可平移查看细节
