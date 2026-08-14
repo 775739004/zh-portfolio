@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="scroll-smooth">
+<html lang="zh-CN" class="scroll-smooth select-none">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +21,10 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
 
       body {
@@ -28,10 +32,8 @@
         font-family: 'Inter', Arial, Helvetica, sans-serif;
         color: #0f172a;
         overflow-x: hidden;
-        user-select: none;
       }
 
-      /* 首屏 Hero 样式 */
       .hero-section {
         text-align: center;
         padding-top: 60px;
@@ -53,7 +55,6 @@
         letter-spacing: -0.2px;
       }
 
-      /* 图片区域蒙版与滑动长条 */
       .gallery-wrapper {
         width: 100%;
         overflow: hidden;
@@ -79,7 +80,6 @@
         gap: 18px;
         width: max-content;
         cursor: grab;
-        user-select: none;
         will-change: transform;
       }
 
@@ -87,7 +87,6 @@
         cursor: grabbing;
       }
 
-      /* 16:9 横向照片卡片尺寸 */
       .gallery-card {
         width: 300px;
         aspect-ratio: 16 / 9;
@@ -112,7 +111,7 @@
         box-shadow: 0 20px 35px rgba(0,0,0,0.12);
       }
 
-      /* 防盗图属性与高精度画质保障 */
+      /* 极致高清画质修复与防拖拽 */
       img {
         -webkit-user-drag: none;
         -khtml-user-drag: none;
@@ -120,8 +119,7 @@
         -o-user-drag: none;
         user-select: none;
         -webkit-user-select: none;
-        image-rendering: -webkit-optimize-contrast;
-        image-rendering: crisp-edges;
+        image-rendering: auto; /* 保证 3D 渲染图平滑过渡，消除锯齿 */
       }
 
       ::-webkit-scrollbar { width: 8px; }
@@ -129,14 +127,13 @@
       ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
       ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-      /* 弹窗专用精致内嵌滚动条 */
       .custom-modal-scroll::-webkit-scrollbar { width: 6px; }
       .custom-modal-scroll::-webkit-scrollbar-track { background: transparent; margin: 12px 0; }
       .custom-modal-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
       .custom-modal-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="bg-white text-slate-900 antialiased">
+<body class="bg-white text-slate-900 antialiased select-none" oncontextmenu="return false;" ondragstart="return false;">
     <div id="root"></div>
 
     <script type="text/babel">
@@ -309,113 +306,112 @@
           items: [
             { 
               id: "p1", title: "SUNBURST CITRUS", brand: "饮料", 
-              img: "https://i.postimg.cc/NMfX6CrK/yin-liao-chang-jing4.webp",
+              img: "./image/YinLiao/YinLiao04.webp",
               aspectRatio: "1792 / 2400",
               comparisons: [
-                { before: "https://i.postimg.cc/MTKB73j5/yin-liao-chang-jing-bai-mo1.webp", after: "https://i.postimg.cc/4dNc62hJ/yin-liao-chang-jing1.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/Tw7DCjrW/yin-liao-chang-jing-bai-mo2.webp", after: "https://i.postimg.cc/W3bZGYJ3/yin-liao-chang-jing2.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/RFsHX1cf/yin-liao-chang-jing-bai-mo3.webp", after: "https://i.postimg.cc/76Yz3tTL/yin-liao-chang-jing3.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/qRb3jc8y/yin-liao-chang-jing-bai-mo4.webp", after: "https://i.postimg.cc/NMfX6CrK/yin-liao-chang-jing4.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/NMJHp81R/yin-liao-chang-jing-bai-mo5.webp", after: "https://i.postimg.cc/TwYbVNWL/yin-liao-chang-jing5.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/V6GCD9jj/yin-liao-chang-jing-bai-mo6.webp", after: "https://i.postimg.cc/0Q2SYXJS/yin-liao-chang-jing6.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/cH9nX7QB/yin-liao-chang-jing-bai-mo7.webp", after: "https://i.postimg.cc/MTKB73jY/yin-liao-chang-jing7.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/0Q2SYXJ9/yin-liao-chang-jing-bai-mo8.webp", after: "https://i.postimg.cc/RFsHX1cH/yin-liao-chang-jing8.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "./image/YinLiao/YinLiao09.webp", after: "./image/YinLiao/YinLiao01.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YinLiao/YinLiao10.webp", after: "./image/YinLiao/YinLiao02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YinLiao/YinLiao11.webp", after: "./image/YinLiao/YinLiao03.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YinLiao/YinLiao12.webp", after: "./image/YinLiao/YinLiao04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YinLiao/YinLiao13.webp", after: "./image/YinLiao/YinLiao05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YinLiao/YinLiao14.webp", after: "./image/YinLiao/YinLiao06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YinLiao/YinLiao15.webp", after: "./image/YinLiao/YinLiao07.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YinLiao/YinLiao16.webp", after: "./image/YinLiao/YinLiao08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p2", title: "HYDRATION", brand: "运动产品", 
-              img: "https://i.postimg.cc/SRnZmfk0/yun-dong-shui-hu-jian-shen-chang-jing.webp",
+              img: "./image/YunDongShuiHu/YunDongShuiHu04.webp",
               comparisons: [
-                { before: "./image/BMW-M4/BMW-M407.webp", after: "https://i.postimg.cc/SRnZmfk0/yun-dong-shui-hu-jian-shen-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/rsDhqNcQ/yun-dong-shui-hu-chuang-yi-bai-mo.webp", after: "https://i.postimg.cc/SRnZmfq5/yun-dong-shui-hu-chuang-yi-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/yxDf7yBP/yun-dong-shui-hu-cao-chang-bai-mo.webp", after: "https://i.postimg.cc/RhWPvL9g/yun-dong-shui-hu-cao-chang-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/tJsr9NpG/yun-dong-shui-hu-qi-che-bai-mo.webp", after: "https://i.postimg.cc/0jhVjK2h/yun-dong-shui-hu-qi-che-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/d3g53Ztz/yun-dong-shui-hu-ye-wai-bai-mo.webp", after: "https://i.postimg.cc/NFZdF2jc/yun-dong-shui-hu-ye-wai-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/J0Sp0H4f/yun-dong-shui-hu-ye-wai-bai-mo1.webp", after: "https://i.postimg.cc/C59c5nxY/yun-dong-shui-hu-ye-wai-chang-jing1.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/d3g53Ztz/yun-dong-shui-hu-ye-wai-bai-mo.webp", after: "https://i.postimg.cc/NFZdF2jc/yun-dong-shui-hu-ye-wai-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "./image/YunDongShuiHu/YunDongShuiHu01.webp", after: "./image/YunDongShuiHu/YunDongShuiHu02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YunDongShuiHu/YunDongShuiHu03.webp", after: "./image/YunDongShuiHu/YunDongShuiHu04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YunDongShuiHu/YunDongShuiHu05.webp", after: "./image/YunDongShuiHu/YunDongShuiHu06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YunDongShuiHu/YunDongShuiHu07.webp", after: "./image/YunDongShuiHu/YunDongShuiHu08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YunDongShuiHu/YunDongShuiHu09.webp", after: "./image/YunDongShuiHu/YunDongShuiHu11.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/YunDongShuiHu/YunDongShuiHu10.webp", after: "./image/YunDongShuiHu/YunDongShuiHu12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p3", title: "电动牙刷", brand: "3C产品", 
-              img: "https://i.postimg.cc/d0M8r048/ke-huan-chang-jing.webp",
+              img: "./image/DianDongYaShua/DianDongYaShua08.webp",
               comparisons: [
-                { before: "https://i.postimg.cc/XYBfr5cZ/chuang-yi-bai-mo.webp", after: "https://i.postimg.cc/Z5v8WNF8/chuang-yi-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/kgRQ2SFt/chuang-yi-bai-mo2.webp", after: "https://i.postimg.cc/Z5v8WNFF/chuang-yi-chang-jing2.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/RZJ7WtQJ/chuang-yi-bai-mo3.webp", after: "https://i.postimg.cc/rwR1D4CS/chuang-yi-chang-jing3.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/KYXnBYJC/yu-shi-bai-mo.webp", after: "https://i.postimg.cc/YCL6vFfG/yu-shi-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/Mpf7nBbm/ke-huan-bai-mo.webp", after: "https://i.postimg.cc/d0M8r048/ke-huan-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/nh94XmYS/ye-wai-bai-mo.webp", after: "https://i.postimg.cc/CKyjkKmJ/ye-wai-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/Dw4rSGdx/ye-wai-bai-mo2.webp", after: "https://i.postimg.cc/nL8vBL0d/ye-wai-chang-jing2.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/QMLp1M0g/ye-wai-bai-mo3.webp", after: "https://i.postimg.cc/mrxQCr8X/ye-wai-chang-jing3.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/9f3GZfJp/ye-wai-bai-mo4.webp", after: "https://i.postimg.cc/k5rxK5fH/ye-wai-chang-jing4.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/W4RMg4X8/ye-wai-bai-mo5.webp", after: "https://i.postimg.cc/rp6SxpQY/ye-wai-chang-jing5.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "./image/DianDongYaShua/DianDongYaShua01.webp", after: "./image/DianDongYaShua/DianDongYaShua04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/DianDongYaShua/DianDongYaShua02.webp", after: "./image/DianDongYaShua/DianDongYaShua05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/DianDongYaShua/DianDongYaShua03.webp", after: "./image/DianDongYaShua/DianDongYaShua06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/DianDongYaShua/DianDongYaShua07.webp", after: "./image/DianDongYaShua/DianDongYaShua08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/DianDongYaShua/DianDongYaShua09.webp", after: "./image/DianDongYaShua/DianDongYaShua14.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/DianDongYaShua/DianDongYaShua10.webp", after: "./image/DianDongYaShua/DianDongYaShua15.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/DianDongYaShua/DianDongYaShua11.webp", after: "./image/DianDongYaShua/DianDongYaShua16.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/DianDongYaShua/DianDongYaShua12.webp", after: "./image/DianDongYaShua/DianDongYaShua17.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/DianDongYaShua/DianDongYaShua13.webp", after: "./image/DianDongYaShua/DianDongYaShua18.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/DianDongYaShua/DianDongYaShua19.webp", after: "./image/DianDongYaShua/DianDongYaShua20.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p4", title: "扫地机器人", brand: "家电产品", 
-              img: "https://i.postimg.cc/vBv5Vg86/sao-de-ji-qi-ren2.webp",
+              img: "./image/SaoDiJiQiRen/SaoDiJiQiRen02.webp",
               comparisons: [
-                { before: "https://i.postimg.cc/1tKDqnRH/sao-de-ji-qi-ren-bai-mo1.webp", after: "https://i.postimg.cc/0QC7wM5h/sao-de-ji-qi-ren1.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/bJR1tDYR/sao-de-ji-qi-ren-bai-mo2.webp", after: "https://i.postimg.cc/vBv5Vg86/sao-de-ji-qi-ren2.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/SsGcM2QD/sao-de-ji-qi-ren-bai-mo3.webp", after: "https://i.postimg.cc/0QC7wM57/sao-de-ji-qi-ren3.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/hj0Vdz4y/sao-de-ji-qi-ren-bai-mo4.webp", after: "https://i.postimg.cc/FRx0LdFc/sao-de-ji-qi-ren4.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/ydT0Zg6p/sao-de-ji-qi-ren-bai-mo5.webp", after: "https://i.postimg.cc/MTY1QMZy/sao-de-ji-qi-ren5.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/zBkTgbDQ/sao-de-ji-qi-ren-bai-mo6.webp", after: "https://i.postimg.cc/76NS2GPn/sao-de-ji-qi-ren6.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen07.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen01.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen08.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen09.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen03.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen10.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen11.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/SaoDiJiQiRen/SaoDiJiQiRen12.webp", after: "./image/SaoDiJiQiRen/SaoDiJiQiRen06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p5", title: "手持风扇", brand: "3C产品", 
-              img: "https://i.postimg.cc/Kvt3k39g/shou-chi-feng-shan-sha-tan-chang-jing2.webp",
+              img: "./image/ShouChiFengShan/ShouChiFengShan05.webp",
               aspectRatio: "1536 / 2752",
               comparisons: [
-                { before: "https://i.postimg.cc/3J2040Ly/shou-chi-feng-shan-shi-nei-bai-mo1.webp", after: "https://i.postimg.cc/MK1fMfsm/shou-chi-feng-shan-shi-nei-chang-jing1.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/zXTHbHdC/shou-chi-feng-shan-shi-nei-bai-mo2.webp", after: "https://i.postimg.cc/MK1fMfs5/shou-chi-feng-shan-shi-nei-chang-jing2.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/m271z1db/shou-chi-feng-shan-sha-tan-bai-mo1.webp", after: "https://i.postimg.cc/4NpH7H87/shou-chi-feng-shan-sha-tan-chang-jing1.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/kXWR6Rj7/shou-chi-feng-shan-sha-tan-bai-mo2.webp", after: "https://i.postimg.cc/Kvt3k39g/shou-chi-feng-shan-sha-tan-chang-jing2.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/TYn5L5kf/shou-chi-feng-shan-sha-tan-bai-mo3.webp", after: "https://i.postimg.cc/sD5GQGnG/shou-chi-feng-shan-sha-tan-chang-jing3.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/28nLbLHw/shou-chi-feng-shan-xue-de-bai-mo.webp", after: "https://i.postimg.cc/TYn5L5kd/shou-chi-feng-shan-xue-de-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "./image/ShouChiFengShan/ShouChiFengShan01.webp", after: "./image/ShouChiFengShan/ShouChiFengShan04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/ShouChiFengShan/ShouChiFengShan02.webp", after: "./image/ShouChiFengShan/ShouChiFengShan05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/ShouChiFengShan/ShouChiFengShan03.webp", after: "./image/ShouChiFengShan/ShouChiFengShan06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/ShouChiFengShan/ShouChiFengShan07.webp", after: "./image/ShouChiFengShan/ShouChiFengShan09.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/ShouChiFengShan/ShouChiFengShan08.webp", after: "./image/ShouChiFengShan/ShouChiFengShan10.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/ShouChiFengShan/ShouChiFengShan11.webp", after: "./image/ShouChiFengShan/ShouChiFengShan12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p6", title: "鼠标", brand: "3C产品", 
-              img: "https://i.postimg.cc/3NXfWCd8/shu-biao-chuang-yi-chang-jing4.webp",
+              img: "./image/ShuBiao/ShuBiao11.webp",
               comparisons: [
-                { before: "https://i.postimg.cc/1RwjWPMv/shu-biao-chuang-yi-bai-mo1.webp", after: "https://i.postimg.cc/x8DF0FT9/shu-biao-chuang-yi-chang-jing1.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/CMkQvYJv/shu-biao-chuang-yi-bai-mo2.webp", after: "https://i.postimg.cc/T1MHRHYR/shu-biao-chuang-yi-chang-jing2.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/905NWNXL/shu-biao-chuang-yi-bai-mo3.webp", after: "https://i.postimg.cc/nr4SMYCJ/shu-biao-chuang-yi-chang-jing3.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/0jRH8H5t/shu-biao-chuang-yi-bai-mo4.webp", after: "https://i.postimg.cc/3NXfWCd8/shu-biao-chuang-yi-chang-jing4.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/VvQHYHsD/shu-biao-chuang-yi-bai-mo5.webp", after: "https://i.postimg.cc/fycqkjJT/shu-biao-chuang-yi-chang-jing5.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/cCy5s519/shu-biao-chuang-yi-bai-mo6.webp", after: "https://i.postimg.cc/prfcyYpn/shu-biao-chuang-yi-chang-jing6.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/0jRH8H2q/shu-biao-chuang-yi-bai-mo7.webp", after: "https://i.postimg.cc/j2H3CQLf/shu-biao-chuang-yi-chang-jing7.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "./image/ShuBiao/ShuBiao01.webp", after: "./image/ShuBiao/ShuBiao08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/ShuBiao/ShuBiao02.webp", after: "./image/ShuBiao/ShuBiao09.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/ShuBiao/ShuBiao03.webp", after: "./image/ShuBiao/ShuBiao10.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/ShuBiao/ShuBiao04.webp", after: "./image/ShuBiao/ShuBiao11.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/ShuBiao/ShuBiao05.webp", after: "./image/ShuBiao/ShuBiao12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/ShuBiao/ShuBiao06.webp", after: "./image/ShuBiao/ShuBiao13.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/ShuBiao/ShuBiao07.webp", after: "./image/ShuBiao/ShuBiao14.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p7", title: "剃须刀", brand: "3C产品", 
-              img: "https://i.postimg.cc/dQNLxP1C/ti-xu-dao-ke-huan-chang-jing1.webp",
+              img: "./image/TiXuDao/TiXuDao02.webp",
               comparisons: [
-                { before: "https://i.postimg.cc/x8Z8JH7B/ti-xu-dao-chuang-yi-bai-mo.webp", after: "https://i.postimg.cc/gj7jXRQb/ti-xu-dao-chuang-yi-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/zD2VcZBd/ti-xu-dao-sha-mo-bai-mo1.webp", after: "https://i.postimg.cc/8kXj0Q5x/ti-xu-dao-sha-mo-chang-jing1.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/PJ7JpZcg/ti-xu-dao-ke-huan-bai-mo1.webp", after: "https://i.postimg.cc/dQNLxP1C/ti-xu-dao-ke-huan-chang-jing1.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/br5rDbWp/ti-xu-dao-ke-huan-bai-mo2.webp", after: "https://i.postimg.cc/CMrzQT14/ti-xu-dao-ke-huan-chang-jing2.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/hvYvzx6D/ti-xu-dao-ke-huan-bai-mo3.webp", after: "https://i.postimg.cc/y6pkb4dn/ti-xu-dao-ke-huan-chang-jing3.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/kMYBp34V/ti-xu-dao-ke-huan-bai-mo4.webp", after: "https://i.postimg.cc/zD2VcZBx/ti-xu-dao-ke-huan-chang-jing4.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/G3gH5wt0/ti-xu-dao-xue-de-bai-mo.webp", after: "https://i.postimg.cc/XqPqGFhT/ti-xu-dao-xue-de-chang-jing.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "./image/TiXuDao/TiXuDao01.webp", after: "./image/TiXuDao/TiXuDao02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/TiXuDao/TiXuDao03.webp", after: "./image/TiXuDao/TiXuDao07.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/TiXuDao/TiXuDao04.webp", after: "./image/TiXuDao/TiXuDao08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/TiXuDao/TiXuDao05.webp", after: "./image/TiXuDao/TiXuDao09.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/TiXuDao/TiXuDao06.webp", after: "./image/TiXuDao/TiXuDao10.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/TiXuDao/TiXuDao11.webp", after: "./image/TiXuDao/TiXuDao12.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/TiXuDao/TiXuDao13.webp", after: "./image/TiXuDao/TiXuDao14.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             },
             { 
               id: "p8", title: "宝马M4", brand: "汽车", 
-              img: "https://i.postimg.cc/hvnWCGm7/M4lei-ting02.webp",
+              img: "./image/BMW-M4/BMW-M402.webp",
               comparisons: [
-                { before: "https://i.postimg.cc/VvFy2c9K/M4lei-ting-bai-mo02.webp", after: "https://i.postimg.cc/hvnWCGm7/M4lei-ting02.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/5ymcDM5P/M4lei-ting-bai-mo03.webp", after: "https://i.postimg.cc/QCDG6M77/M4lei-ting03.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/MHYkg80P/M4lei-ting-bai-mo04.webp", after: "https://i.postimg.cc/4yGk83cv/M4lei-ting04.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/RhTr2z1j/M4lei-ting-bai-mo07.webp", after: "https://i.postimg.cc/0jCghqGM/M4lei-ting07.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/qqGfWdcS/M4lei-ting-bai-mo08.webp", after: "https://i.postimg.cc/1XKxbZ0G/M4lei-ting08.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/8cGQyCvJ/M4lei-ting-bai-mo10.webp", after: "https://i.postimg.cc/3NZMzHjF/M4lei-ting10.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/qBcdN8fk/M4lei-ting-bai-mo09.webp", after: "https://i.postimg.cc/1XKxbZ0H/M4lei-ting09.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/hv0FNq80/M4lei-ting-bai-mo01.webp", after: "https://i.postimg.cc/9025xf9T/M4lei-ting01.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/RhTr2z1b/M4lei-ting-bai-mo05.webp", after: "https://i.postimg.cc/VvFy2c9S/M4lei-ting05.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
-                { before: "https://i.postimg.cc/C54y9VC9/M4lei-ting-bai-mo06.webp", after: "https://i.postimg.cc/j2hVBr6n/M4lei-ting06.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
+                { before: "./image/BMW-M4/BMW-M417.webp", after: "./image/BMW-M4/BMW-M407.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/BMW-M4/BMW-M418.webp", after: "./image/BMW-M4/BMW-M408.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/BMW-M4/BMW-M412.webp", after: "./image/BMW-M4/BMW-M402.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/BMW-M4/BMW-M413.webp", after: "./image/BMW-M4/BMW-M403.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/BMW-M4/BMW-M414.webp", after: "./image/BMW-M4/BMW-M404.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/BMW-M4/BMW-M420.webp", after: "./image/BMW-M4/BMW-M410.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/BMW-M4/BMW-M411.webp", after: "./image/BMW-M4/BMW-M401.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/BMW-M4/BMW-M415.webp", after: "./image/BMW-M4/BMW-M405.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/BMW-M4/BMW-M416.webp", after: "./image/BMW-M4/BMW-M406.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" },
+                { before: "./image/BMW-M4/BMW-M419.webp", after: "./image/BMW-M4/BMW-M409.webp", beforeLabel: "(白模)", afterLabel: "(渲染)" }
               ]
             }
           ]
@@ -427,61 +423,61 @@
           items: [
             { 
               id: "i1", title: "沙漠酒店", brand: "空间渲染", 
-              img: "https://i.postimg.cc/k43KprgG/sha-mo-jiu-dian10.webp",
+              img: "./image/ShaMoJiuDian/ShaMoJiuDian10.webp",
               gallery: [
-                "https://i.postimg.cc/yd4cbq8N/sha-mo-jiu-dian01.webp",
-                "https://i.postimg.cc/26RhKpSq/sha-mo-jiu-dian02.webp",
-                "https://i.postimg.cc/0QRDBgyb/sha-mo-jiu-dian03.webp",
-                "https://i.postimg.cc/B69HVWn5/sha-mo-jiu-dian04.webp",
-                "https://i.postimg.cc/sXY7FnMB/sha-mo-jiu-dian05.webp",
-                "https://i.postimg.cc/XJfdM2rd/sha-mo-jiu-dian06.webp",
-                "https://i.postimg.cc/ydmcqfDh/sha-mo-jiu-dian07.webp",
-                "https://i.postimg.cc/mDYCxdPw/sha-mo-jiu-dian08.webp",
-                "https://i.postimg.cc/fLcm4HV5/sha-mo-jiu-dian09.webp",
-                "https://i.postimg.cc/k43KprgG/sha-mo-jiu-dian10.webp"
+                "./image/ShaMoJiuDian/ShaMoJiuDian01.webp",
+                "./image/ShaMoJiuDian/ShaMoJiuDian02.webp",
+                "./image/ShaMoJiuDian/ShaMoJiuDian03.webp",
+                "./image/ShaMoJiuDian/ShaMoJiuDian04.webp",
+                "./image/ShaMoJiuDian/ShaMoJiuDian05.webp",
+                "./image/ShaMoJiuDian/ShaMoJiuDian06.webp",
+                "./image/ShaMoJiuDian/ShaMoJiuDian07.webp",
+                "./image/ShaMoJiuDian/ShaMoJiuDian08.webp",
+                "./image/ShaMoJiuDian/ShaMoJiuDian09.webp",
+                "./image/ShaMoJiuDian/ShaMoJiuDian10.webp"
               ]
             },
             { 
               id: "i2", title: "万豪酒店", brand: "空间渲染", 
-              img: "https://i.postimg.cc/vZymkQWS/wan-hao-jiu-dian2.webp",
+              img: "./image/WanHaoJiuDian/WanHaoJiuDian2.webp",
               gallery: [
-                "https://i.postimg.cc/0yvNF8pB/wan-hao-jiu-dian1.webp",
-                "https://i.postimg.cc/vZymkQWS/wan-hao-jiu-dian2.webp",
-                "https://i.postimg.cc/QdDMwXpq/wan-hao-jiu-dian3.webp",
-                "https://i.postimg.cc/8zGC91RN/wan-hao-jiu-dian4.webp",
-                "https://i.postimg.cc/sgz2qVY2/wan-hao-jiu-dian5.webp",
-                "https://i.postimg.cc/JzQhW9xm/wan-hao-jiu-dian6.webp",
-                "https://i.postimg.cc/ht0GqHsc/wan-hao-jiu-dian7.webp",
-                "https://i.postimg.cc/cLcJNVh4/wan-hao-jiu-dian8.webp",
-                "https://i.postimg.cc/jdP5MWJ9/wan-hao-jiu-dian9.webp"
+                "./image/WanHaoJiuDian/WanHaoJiuDian1.webp",
+                "./image/WanHaoJiuDian/WanHaoJiuDian2.webp",
+                "./image/WanHaoJiuDian/WanHaoJiuDian3.webp",
+                "./image/WanHaoJiuDian/WanHaoJiuDian4.webp",
+                "./image/WanHaoJiuDian/WanHaoJiuDian5.webp",
+                "./image/WanHaoJiuDian/WanHaoJiuDian6.webp",
+                "./image/WanHaoJiuDian/WanHaoJiuDian7.webp",
+                "./image/WanHaoJiuDian/WanHaoJiuDian8.webp",
+                "./image/WanHaoJiuDian/WanHaoJiuDian9.webp"
               ]
             },
             { 
               id: "i3", title: "悬崖海边别墅", brand: "空间渲染", 
-              img: "https://i.postimg.cc/L6gV8Vg5/xuan-ya-hai-bian-bie-shu2.webp",
+              img: "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua08.webp",
               gallery: [
-                "https://i.postimg.cc/VL0FkF05/xuan-ya-hai-bian-bie-shu1.webp",
-                "https://i.postimg.cc/L6gV8Vg5/xuan-ya-hai-bian-bie-shu2.webp",
-                "https://i.postimg.cc/YqLxCxL9/xuan-ya-hai-bian-bie-shu3.webp",
-                "https://i.postimg.cc/05Bfv4jD/xuan-ya-hai-bian-bie-shu4.webp",
-                "https://i.postimg.cc/kXRygyRR/xuan-ya-hai-bian-bie-shu5.webp",
-                "https://i.postimg.cc/8Pfbzbf6/xuan-ya-hai-bian-bie-shu6.webp",
-                "https://i.postimg.cc/8Pfbzbfr/xuan-ya-hai-bian-bie-shu7.webp",
-                "https://i.postimg.cc/yY3T8T3R/xuan-ya-hai-bian-bie-shu8.webp"
+                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua01.webp",
+                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua02.webp",
+                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua03.webp",
+                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua04.webp",
+                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua05.webp",
+                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua06.webp",
+                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua07.webp",
+                "./image/XuanYaHaiBianBieShua/XuanYaHaiBianBieShua08.webp"
               ]
             },
             { 
               id: "i4", title: "中式别墅", brand: "空间渲染", 
-              img: "https://i.postimg.cc/zB3gPJnF/zhong-shi-bie-shu1.webp",
+              img: "./image/ZhongShiBieShu/ZhongShiBieShu01.webp",
               gallery: [
-                "https://i.postimg.cc/LXh10HzB/zhong-shi-bie-shu2.webp",
-                "https://i.postimg.cc/RFqHbMc1/zhong-shi-bie-shu3.webp",
-                "https://i.postimg.cc/C1dq6Fjj/zhong-shi-bie-shu4.webp",
-                "https://i.postimg.cc/gJ56CfDK/zhong-shi-bie-shu5.webp",
-                "https://i.postimg.cc/MT4jChDd/zhong-shi-bie-shu6.webp",
-                "https://i.postimg.cc/nz5Qy6kS/zhong-shi-bie-shu7.webp",
-                "https://i.postimg.cc/rmbtBvJH/zhong-shi-bie-shu8.webp",
-                "https://i.postimg.cc/zB3gPJnF/zhong-shi-bie-shu1.webp"
+                "./image/ZhongShiBieShu/ZhongShiBieShu02.webp",
+                "./image/ZhongShiBieShu/ZhongShiBieShu03.webp",
+                "./image/ZhongShiBieShu/ZhongShiBieShu04.webp",
+                "./image/ZhongShiBieShu/ZhongShiBieShu05.webp",
+                "./image/ZhongShiBieShu/ZhongShiBieShu06.webp",
+                "./image/ZhongShiBieShu/ZhongShiBieShu01.webp",
+                "./image/ZhongShiBieShu/ZhongShiBieShu07.webp",
+                "./image/ZhongShiBieShu/ZhongShiBieShu08.webp"
               ]
             }
           ]
@@ -515,7 +511,6 @@
 
       const ImageCompareSlider = ({ before, after, beforeLabel = "Before", afterLabel = "After", aspectRatio = "16 / 9" }) => {
         const [sliderPos, setSliderPos] = useState(50);
-        const [isSliding, setIsSliding] = useState(false);
         const containerRef = useRef(null);
         const isDraggingRef = useRef(false);
 
@@ -538,7 +533,6 @@
           const onMouseUp = () => {
             if (isDraggingRef.current) {
               isDraggingRef.current = false;
-              setIsSliding(false);
             }
           };
           const onTouchMove = (e) => {
@@ -549,13 +543,12 @@
           const onTouchEnd = () => {
             if (isDraggingRef.current) {
               isDraggingRef.current = false;
-              setIsSliding(false);
             }
           };
 
           window.addEventListener('mousemove', onMouseMove);
           window.addEventListener('mouseup', onMouseUp);
-          window.addEventListener('touchmove', onTouchMove);
+          window.addEventListener('touchmove', onTouchMove, { passive: false });
           window.addEventListener('touchend', onTouchEnd);
 
           return () => {
@@ -568,22 +561,19 @@
 
         const handleStart = (clientX) => {
           isDraggingRef.current = true;
-          setIsSliding(true);
           handleMove(clientX);
         };
 
         return (
           <div 
             ref={containerRef}
-            className="relative w-full h-full rounded-2xl overflow-hidden select-none bg-slate-900 shadow-lg group cursor-ew-resize"
-            style={{ aspectRatio: aspectRatio }}
-            onMouseDown={(e) => handleStart(e.clientX)}
-            onTouchStart={(e) => handleStart(e.touches[0].clientX)}
+            className="relative w-full h-full overflow-hidden select-none bg-slate-900 group"
           >
             <img 
               src={after} 
               alt={afterLabel} 
               className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
+              draggable="false"
             />
             
             <div 
@@ -594,10 +584,10 @@
                 src={before} 
                 alt={beforeLabel} 
                 className="absolute inset-0 w-full h-full object-contain pointer-events-none" 
+                draggable="false"
               />
             </div>
 
-            {/* Labels */}
             <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full pointer-events-none font-medium border border-white/20">
               {beforeLabel}
             </div>
@@ -605,17 +595,210 @@
               {afterLabel}
             </div>
 
-            {/* Divider Line & Centered Compact Handle */}
             <div 
-              className="absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] pointer-events-none"
+              className="slider-handle-line absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] cursor-ew-resize z-20"
               style={{ left: `${sliderPos}%` }}
+              onMouseDown={(e) => {
+                 e.stopPropagation();
+                 handleStart(e.clientX);
+              }}
+              onTouchStart={(e) => {
+                 e.stopPropagation();
+                 handleStart(e.touches[0].clientX);
+              }}
             >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-7 h-7 bg-white rounded-full shadow-lg flex items-center justify-center text-slate-800 border border-slate-200">
-                <svg className="w-3.5 h-3.5 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-white rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.4)] flex items-center justify-center text-slate-800 border-2 border-slate-100">
+                <svg className="w-4 h-4 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M8 7l-5 5 5 5M16 7l5 5-5 5"/>
                 </svg>
               </div>
             </div>
+          </div>
+        );
+      };
+
+      const ZoomableComparisonModal = ({ item, onClose }) => {
+        const [scale, setScale] = useState(1);
+        const [pos, setPos] = useState({ x: 0, y: 0 });
+        const dragRef = useRef(false);
+        const dragStart = useRef({ x: 0, y: 0 });
+        const backdropMouseDownRef = useRef(false);
+
+        if (!item) return null;
+
+        const ratioStr = item.aspectRatio || '16 / 9';
+        const parts = ratioStr.split('/').map(s => parseFloat(s.trim()));
+        const rVal = (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[1] !== 0) 
+          ? (parts[0] / parts[1]) 
+          : (16 / 9);
+
+        const handleWheel = (e) => {
+          const delta = e.deltaY * -0.002;
+          setScale(s => Math.min(Math.max(1, s + delta), 5));
+        };
+
+        const handlePanMove = (e) => {
+          if (dragRef.current && scale > 1) {
+            setPos({
+              x: e.clientX - dragStart.current.x,
+              y: e.clientY - dragStart.current.y
+            });
+          }
+        };
+        const handlePanEnd = () => { dragRef.current = false; };
+
+        return (
+          <div 
+            className="fixed inset-0 z-[110] flex flex-col items-center justify-center bg-black/90 backdrop-blur-md p-4"
+            onMouseDown={(e) => {
+              if (e.target === e.currentTarget) {
+                backdropMouseDownRef.current = true;
+              }
+            }}
+            onMouseUp={(e) => {
+              if (e.target === e.currentTarget && backdropMouseDownRef.current) {
+                onClose();
+              }
+              backdropMouseDownRef.current = false;
+            }}
+            onWheel={handleWheel}
+            onMouseMove={handlePanMove}
+            onMouseUpCapture={handlePanEnd}
+            onMouseLeave={handlePanEnd}
+          >
+            <div className="absolute top-6 flex items-center gap-4 bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 z-50 text-white shadow-2xl">
+              <button onClick={() => setScale(s => Math.max(1, s - 0.5))} className="hover:text-blue-400 font-bold text-xl px-2">-</button>
+              <span className="text-sm font-medium w-16 text-center">{Math.round(scale * 100)}%</span>
+              <button onClick={() => setScale(s => Math.min(5, s + 0.5))} className="hover:text-blue-400 font-bold text-xl px-2">+</button>
+              <div className="w-px h-4 bg-white/30 mx-1"></div>
+              <button onClick={() => { setScale(1); setPos({x:0, y:0}); }} className="hover:text-blue-400 text-xs font-bold px-2 cursor-pointer">重置</button>
+            </div>
+
+            <button 
+              onClick={onClose}
+              className="absolute top-6 right-6 z-50 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-white font-bold flex items-center justify-center transition-all border border-white/20 shadow-lg text-lg"
+              title="关闭对比"
+            >
+              ✕
+            </button>
+            
+            <div 
+              className="relative flex items-center justify-center rounded-2xl overflow-hidden shadow-2xl transition-transform duration-100 ease-out"
+              style={{
+                aspectRatio: ratioStr,
+                width: `min(90vw, calc(85vh * ${rVal}))`,
+                maxWidth: '90vw',
+                maxHeight: '85vh',
+                transform: `scale(${scale}) translate(${pos.x / scale}px, ${pos.y / scale}px)`
+              }}
+              onMouseDownCapture={(e) => {
+                 if (scale > 1 && !e.target.closest('.slider-handle-line')) {
+                     e.stopPropagation();
+                     dragRef.current = true;
+                     dragStart.current = { x: e.clientX - pos.x, y: e.clientY - pos.y };
+                 }
+              }}
+              onDoubleClick={() => {
+                 if (scale === 1) setScale(2.5);
+                 else { setScale(1); setPos({x:0, y:0}); }
+              }}
+            >
+              <ImageCompareSlider 
+                before={item.before}
+                after={item.after}
+                beforeLabel={item.beforeLabel}
+                afterLabel={item.afterLabel}
+                aspectRatio={ratioStr}
+              />
+            </div>
+            
+            {scale > 1 && (
+               <div className="absolute bottom-8 text-white/50 text-xs font-medium pointer-events-none tracking-widest">
+                   拖拽可平移查看细节
+               </div>
+            )}
+          </div>
+        );
+      };
+
+      const ZoomableSingleModal = ({ imgUrl, onClose }) => {
+        const [scale, setScale] = useState(1);
+        const [pos, setPos] = useState({ x: 0, y: 0 });
+        const dragRef = useRef(false);
+        const dragStart = useRef({ x: 0, y: 0 });
+        const backdropMouseDownRef = useRef(false);
+
+        if (!imgUrl) return null;
+
+        const handleWheel = (e) => {
+          const delta = e.deltaY * -0.002;
+          setScale(s => Math.min(Math.max(1, s + delta), 5));
+        };
+
+        const handlePanMove = (e) => {
+          if (dragRef.current && scale > 1) {
+            setPos({
+              x: e.clientX - dragStart.current.x,
+              y: e.clientY - dragStart.current.y
+            });
+          }
+        };
+        const handlePanEnd = () => { dragRef.current = false; };
+
+        return (
+          <div 
+            className="fixed inset-0 z-[110] flex flex-col items-center justify-center bg-black/90 backdrop-blur-md p-4"
+            onMouseDown={(e) => {
+              if (e.target === e.currentTarget) backdropMouseDownRef.current = true;
+            }}
+            onMouseUp={(e) => {
+              if (e.target === e.currentTarget && backdropMouseDownRef.current) onClose();
+              backdropMouseDownRef.current = false;
+            }}
+            onWheel={handleWheel}
+            onMouseMove={handlePanMove}
+            onMouseUpCapture={handlePanEnd}
+            onMouseLeave={handlePanEnd}
+          >
+            <div className="absolute top-6 flex items-center gap-4 bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 z-50 text-white shadow-2xl">
+              <button onClick={() => setScale(s => Math.max(1, s - 0.5))} className="hover:text-blue-400 font-bold text-xl px-2">-</button>
+              <span className="text-sm font-medium w-16 text-center">{Math.round(scale * 100)}%</span>
+              <button onClick={() => setScale(s => Math.min(5, s + 0.5))} className="hover:text-blue-400 font-bold text-xl px-2">+</button>
+              <div className="w-px h-4 bg-white/30 mx-1"></div>
+              <button onClick={() => { setScale(1); setPos({x:0, y:0}); }} className="hover:text-blue-400 text-xs font-bold px-2 cursor-pointer">重置</button>
+            </div>
+
+            <button 
+              onClick={onClose}
+              className="absolute top-6 right-6 z-50 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-white font-bold flex items-center justify-center transition-all border border-white/20 shadow-lg text-lg"
+              title="关闭图片"
+            >✕</button>
+
+            <img 
+              src={imgUrl} 
+              alt="Enlarged view" 
+              draggable="false"
+              className="max-w-full max-h-[85vh] rounded-xl object-contain shadow-2xl transition-transform duration-100 ease-out cursor-pointer" 
+              style={{
+                transform: `scale(${scale}) translate(${pos.x / scale}px, ${pos.y / scale}px)`
+              }}
+              onMouseDown={(e) => {
+                 if (scale > 1) {
+                     e.preventDefault();
+                     dragRef.current = true;
+                     dragStart.current = { x: e.clientX - pos.x, y: e.clientY - pos.y };
+                 }
+              }}
+              onDoubleClick={() => {
+                 if (scale === 1) setScale(2.5);
+                 else { setScale(1); setPos({x:0, y:0}); }
+              }}
+            />
+            {scale > 1 && (
+               <div className="absolute bottom-8 text-white/50 text-xs font-medium pointer-events-none tracking-widest">
+                   拖拽可平移查看细节
+               </div>
+            )}
           </div>
         );
       };
@@ -626,8 +809,6 @@
         return (
           <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-md p-4 md:p-6">
             <div className="bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative">
-              
-              {/* Sticky Top Header with Fixed Close Button */}
               <div className="sticky top-0 z-20 bg-white/90 backdrop-blur-md border-b border-slate-100 px-6 py-4 flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-blue-500"></span>
@@ -642,9 +823,7 @@
                 </button>
               </div>
 
-              {/* Scrollable Body */}
               <div className="flex-1 overflow-y-auto custom-modal-scroll p-6 md:p-10 space-y-10">
-                {/* 个人基本信息 */}
                 <div className="flex flex-col md:flex-row justify-between gap-6 pb-8 border-b border-slate-100">
                   <div>
                     <h2 className="text-3xl font-black text-slate-900">{personalInfo.name} <span className="text-xl font-medium text-slate-400">({personalInfo.enName})</span></h2>
@@ -658,7 +837,6 @@
                   </div>
                 </div>
 
-                {/* 自我介绍 */}
                 <div>
                   <h3 className="text-sm font-bold text-slate-400 tracking-wider uppercase mb-3">自我介绍 / ABOUT ME</h3>
                   <p className="text-slate-600 leading-relaxed text-sm bg-slate-50 p-5 rounded-2xl border border-slate-100">
@@ -666,7 +844,6 @@
                   </p>
                 </div>
 
-                {/* 核心技能 */}
                 <div>
                   <h3 className="text-sm font-bold text-slate-400 tracking-wider uppercase mb-3">技能清单 / SKILLS</h3>
                   <div className="flex flex-wrap gap-2">
@@ -678,7 +855,6 @@
                   </div>
                 </div>
 
-                {/* 工作经历 */}
                 <div>
                   <h3 className="text-sm font-bold text-slate-400 tracking-wider uppercase mb-6">工作经历 / WORK EXPERIENCE</h3>
                   <div className="space-y-6">
@@ -695,7 +871,6 @@
                   </div>
                 </div>
 
-                {/* 重点项目经历 */}
                 <div>
                   <h3 className="text-sm font-bold text-slate-400 tracking-wider uppercase mb-6">重点项目经历 / PROJECT EXPERIENCE</h3>
                   <div className="grid md:grid-cols-2 gap-4">
@@ -714,7 +889,6 @@
                   </div>
                 </div>
 
-                {/* 教育背景 */}
                 <div>
                   <h3 className="text-sm font-bold text-slate-400 tracking-wider uppercase mb-4">教育背景 / EDUCATION</h3>
                   <div className="space-y-2">
@@ -744,11 +918,9 @@
         const [currentTranslate, setCurrentTranslate] = useState(0);
         const isMovedRef = useRef(false);
 
-        // 每项宽度 300px + 18px Gap
         const cardWidth = 300 + 18;
         const totalWidth = items.length * cardWidth;
 
-        // 拼接 3 份实现完全无缝循环
         const extendedItems = useMemo(() => {
           if (!items || items.length === 0) return [];
           return [...items, ...items, ...items];
@@ -851,7 +1023,40 @@
         const [singleZoomImg, setSingleZoomImg] = useState(null);
         const [activeVideo, setActiveVideo] = useState(null);
 
-        // 随机打乱算法 (Fisher-Yates) 组合 Hero 视图图片
+        useEffect(() => {
+          const handleKeyDown = (e) => {
+            if (
+              e.key === 'F12' || 
+              ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'u' || e.key === 'U')) ||
+              ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'C' || e.key === 'c' || e.key === 'J' || e.key === 'j'))
+            ) {
+              e.preventDefault();
+              e.stopPropagation();
+              return false;
+            }
+          };
+
+          const handleContextMenu = (e) => {
+            e.preventDefault();
+            return false;
+          };
+
+          const handleDragStart = (e) => {
+            e.preventDefault();
+            return false;
+          };
+
+          document.addEventListener('keydown', handleKeyDown);
+          document.addEventListener('contextmenu', handleContextMenu);
+          document.addEventListener('dragstart', handleDragStart);
+
+          return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('contextmenu', handleContextMenu);
+            document.removeEventListener('dragstart', handleDragStart);
+          };
+        }, []);
+
         const randomizedHeroItems = useMemo(() => {
           const allItems = portfolioCategories.flatMap(c => c.items);
           const shuffled = [...allItems];
@@ -860,16 +1065,6 @@
             [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
           }
           return shuffled;
-        }, []);
-
-        useEffect(() => {
-          const handleContextMenu = (e) => {
-            if (e.target.tagName === 'IMG') {
-              e.preventDefault(); 
-            }
-          };
-          document.addEventListener('contextmenu', handleContextMenu);
-          return () => document.removeEventListener('contextmenu', handleContextMenu);
         }, []);
 
         const navigateTo = (page) => {
@@ -907,8 +1102,7 @@
 
         return (
           <div className="min-h-screen bg-white text-slate-900 font-sans">
-            {/* Top Navigation */}
-            <nav className="w-full px-8 py-6 flex justify-between items-center border-b border-slate-100">
+            <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md w-full px-8 py-5 flex justify-between items-center border-b border-slate-100 shadow-sm transition-all">
               <div 
                 onClick={() => navigateTo('home')} 
                 className="text-lg font-black tracking-tighter text-slate-900 cursor-pointer hover:text-blue-600 transition-colors"
@@ -922,12 +1116,10 @@
               </div>
             </nav>
 
-            {/* Main Content Container */}
             <main className="max-w-7xl mx-auto px-4 md:px-8">
               {!selectedProject ? (
                 currentPage === 'home' ? (
                   <div>
-                    {/* Hero Section */}
                     <section className="hero-section">
                       <h1>
                         3D Visual<br />
@@ -937,13 +1129,11 @@
                       <p>周辉 (Jimmy) — 3D视觉设计师 & 动画师个人作品集</p>
                     </section>
 
-                    {/* Infinite Hero Carousel with Randomized Items */}
                     <HeroCarousel 
                       items={randomizedHeroItems} 
                       onItemClick={handleHeroItemClick}
                     />
 
-                    {/* Intro Actions */}
                     <div className="text-center my-10 space-y-6">
                       <p className="text-slate-600 text-base max-w-xl mx-auto leading-relaxed font-medium">
                         深耕照明亮化、消费电子、汽车广告及数字孪生领域近十年，具备独立完成创意策划、渲染、动效至UE蓝图开发的全流程能力。
@@ -968,7 +1158,6 @@
                       </div>
                     </div>
 
-                    {/* Contact Section */}
                     <section className="border-t border-slate-100 pt-16 pb-20 text-center">
                       <h2 className="text-2xl font-black text-slate-900 mb-2">预约合作 / CONTACT</h2>
                       <p className="text-slate-500 text-sm mb-8">欢迎联系沟通商业 CGI 广告、产品渲染及数字孪生项目。</p>
@@ -986,12 +1175,11 @@
                     </section>
                   </div>
                 ) : (
-                  /* Portfolio Overview */
                   <div className="py-12 space-y-12">
                     <div className="flex items-center">
                       <button 
                         onClick={() => navigateTo('home')} 
-                        className="text-slate-500 hover:text-slate-900 flex items-center gap-1.5 transition-colors text-sm font-semibold"
+                        className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-full transition-all border border-slate-200 text-sm flex items-center gap-1.5"
                       >
                         ← 返回首页
                       </button>
@@ -1035,12 +1223,11 @@
                   </div>
                 )
               ) : (
-                /* Detail View */
                 <div className="py-12 space-y-12 animate-fadeIn">
                   <div className="flex items-center gap-4 text-sm font-semibold">
                     <button 
                       onClick={handleBackFromDetail}
-                      className="text-slate-500 hover:text-slate-900 flex items-center gap-1.5 transition-colors"
+                      className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-full transition-all border border-slate-200 flex items-center gap-1.5"
                     >
                       ← 返回列表
                     </button>
@@ -1054,12 +1241,11 @@
                     )}
                   </div>
 
-                  {/* Comparisons or Gallery Grid */}
                   {selectedProject.comparisons && selectedProject.comparisons.length > 0 ? (
                     <div className="space-y-6">
                       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                         <h2 className="text-lg font-bold text-slate-800">
-                          视角效果图集 <span className="text-xs text-slate-400 font-normal ml-2">（点击任意图片开启全屏滑动对比）</span>
+                          视角效果图集 <span className="text-xs text-slate-400 font-normal ml-2">（点击任意图片开启全屏滑动对比 / 支持滚轮缩放放大）</span>
                         </h2>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1123,7 +1309,7 @@
                   <div className="pt-10 border-t border-slate-100 text-center">
                     <button 
                       onClick={handleBackFromDetail}
-                      className="px-8 py-3.5 bg-slate-900 text-white font-bold rounded-full hover:bg-blue-600 transition-colors text-sm"
+                      className="px-8 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-full transition-all border border-slate-200 text-sm inline-flex items-center gap-2"
                     >
                       ← 返回列表
                     </button>
@@ -1136,67 +1322,9 @@
               <p>© {new Date().getFullYear()} 周辉 (Jimmy). 3D Designer Portfolio.</p>
             </footer>
 
-            {/* Comparison Full-screen Modal */}
-            {comparisonModalItem && (() => {
-              const ratioStr = comparisonModalItem.aspectRatio || '16 / 9';
-              const parts = ratioStr.split('/').map(s => parseFloat(s.trim()));
-              const rVal = (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1]) && parts[1] !== 0) 
-                ? (parts[0] / parts[1]) 
-                : (16 / 9);
+            <ZoomableComparisonModal item={comparisonModalItem} onClose={() => setComparisonModalItem(null)} />
+            <ZoomableSingleModal imgUrl={singleZoomImg} onClose={() => setSingleZoomImg(null)} />
 
-              return (
-                <div 
-                  className="fixed inset-0 z-[110] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
-                  onClick={() => setComparisonModalItem(null)}
-                >
-                  <div 
-                    className="relative flex items-center justify-center rounded-2xl overflow-hidden shadow-2xl"
-                    onClick={(e) => e.stopPropagation()}
-                    style={{
-                      aspectRatio: ratioStr,
-                      width: `min(90vw, calc(85vh * ${rVal}))`,
-                      maxWidth: '90vw',
-                      maxHeight: '85vh'
-                    }}
-                  >
-                    <button 
-                      onClick={() => setComparisonModalItem(null)}
-                      className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-black/70 hover:bg-black text-white font-bold flex items-center justify-center transition-all border border-white/20 shadow-lg"
-                      title="关闭对比"
-                    >
-                      ✕
-                    </button>
-                    <ImageCompareSlider 
-                      before={comparisonModalItem.before}
-                      after={comparisonModalItem.after}
-                      beforeLabel={comparisonModalItem.beforeLabel}
-                      afterLabel={comparisonModalItem.afterLabel}
-                      aspectRatio={ratioStr}
-                    />
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/* Single Image Full-screen Modal */}
-            {singleZoomImg && (
-              <div 
-                className="fixed inset-0 z-[110] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
-                onClick={() => setSingleZoomImg(null)}
-              >
-                <div className="relative max-w-5xl max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
-                  <button 
-                    onClick={() => setSingleZoomImg(null)}
-                    className="absolute top-3 right-3 z-30 w-8 h-8 rounded-full bg-black/70 hover:bg-black text-white font-bold flex items-center justify-center border border-white/20 transition-all text-sm"
-                  >
-                    ✕
-                  </button>
-                  <img src={singleZoomImg} alt="Enlarged view" className="max-w-full max-h-[85vh] rounded-xl object-contain shadow-2xl" />
-                </div>
-              </div>
-            )}
-
-            {/* Video Modal */}
             {activeVideo && (
               <div 
                 className="fixed inset-0 z-[110] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
@@ -1209,19 +1337,34 @@
                   >
                     ✕
                   </button>
-                  <iframe 
-                    src={activeVideo} 
-                    className="w-full h-full"
-                    scrolling="no" 
-                    frameBorder="0" 
-                    allowFullScreen={true}
-                    referrerPolicy="no-referrer"
-                  ></iframe>
+                  
+                  {activeVideo.includes('bilibili.com') ? (
+                    <iframe 
+                      src={activeVideo} 
+                      className="w-full h-full"
+                      scrolling="no" 
+                      frameBorder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen={true}
+                      referrerPolicy="no-referrer"
+                    ></iframe>
+                  ) : (
+                    <video 
+                      src={activeVideo} 
+                      controls 
+                      autoPlay
+                      controlsList="nodownload" 
+                      disablePictureInPicture
+                      onContextMenu={(e) => e.preventDefault()}
+                      className="w-full h-full object-contain outline-none"
+                    >
+                      您的浏览器不支持视频播放，请升级浏览器。
+                    </video>
+                  )}
                 </div>
               </div>
             )}
 
-            {/* Resume Modal */}
             <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
           </div>
         );
