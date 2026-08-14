@@ -4,17 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>周辉 (Jimmy) - 3D视觉设计师 / 动画师个人作品集</title>
-    <!-- Tailwind CSS CDN -->
+    
+    <!-- 国内加速：预解析 DNS -->
+    <link rel="dns-prefetch" href="//cdn.staticfile.net">
+    <link rel="dns-prefetch" href="//lib.baomitu.com">
+    <link rel="dns-prefetch" href="//player.bilibili.com">
+    <link rel="dns-prefetch" href="//i.postimg.cc">
+
+    <!-- Tailwind CSS 官方 Play CDN 引擎 -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React 18 & ReactDOM CDN -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-    <!-- Babel Standalone CDN -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- React 18 & ReactDOM 国内高速双重容灾 CDN（Staticfile 主节点 + 360 备用节点） -->
+    <script src="https://cdn.staticfile.net/react/18.2.0/umd/react.production.min.js"></script>
+    <script>window.React || document.write('<script src="https://lib.baomitu.com/react/18.2.0/umd/react.production.min.js"><\/script>')</script>
+
+    <script src="https://cdn.staticfile.net/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script>window.ReactDOM || document.write('<script src="https://lib.baomitu.com/react-dom/18.2.0/umd/react-dom.production.min.js"><\/script>')</script>
+
+    <!-- Babel Standalone 国内双重容灾 CDN -->
+    <script src="https://cdn.staticfile.net/babel-standalone/7.23.6/babel.min.js"></script>
+    <script>window.Babel || document.write('<script src="https://lib.baomitu.com/babel-standalone/7.23.6/babel.min.js"><\/script>')</script>
     
     <style>
       * {
@@ -27,11 +36,13 @@
         user-select: none;
       }
 
+      /* 使用系统原生高质感字体栈，零网络开销，瞬间渲染 */
       body {
         background: #fff;
-        font-family: 'Inter', Arial, Helvetica, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
         color: #0f172a;
         overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
       }
 
       .hero-section {
@@ -111,7 +122,6 @@
         box-shadow: 0 20px 35px rgba(0,0,0,0.12);
       }
 
-      /* 极致高清画质修复与防拖拽 */
       img {
         -webkit-user-drag: none;
         -khtml-user-drag: none;
@@ -119,7 +129,7 @@
         -o-user-drag: none;
         user-select: none;
         -webkit-user-select: none;
-        image-rendering: auto; /* 保证 3D 渲染图平滑过渡，消除锯齿 */
+        image-rendering: auto;
       }
 
       ::-webkit-scrollbar { width: 8px; }
@@ -138,6 +148,15 @@
 
     <script type="text/babel">
       const { useState, useEffect, useRef, useMemo } = React;
+
+      /* 安全合规编码的矢量 SVG 占位图，解决不同浏览器解析异常 */
+      const DEFAULT_PLACEHOLDER = "data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27800%27%20height%3D%27450%27%20viewBox%3D%270%200%20800%20450%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%231e293b%27%2F%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20fill%3D%27%2364748b%27%20font-family%3D%27sans-serif%27%20font-size%3D%2720%27%20text-anchor%3D%27middle%27%20dy%3D%27.3em%27%3E%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E4%B8%AD...%3C%2Ftext%3E%3C%2Fsvg%3E";
+
+      /* 安全兜底句柄：先注销 onerror 再换源，彻底杜绝浏览器无限死循环卡死 */
+      const handleImageError = (e) => {
+        e.target.onerror = null;
+        e.target.src = DEFAULT_PLACEHOLDER;
+      };
 
       const personalInfo = {
         name: "周辉",
@@ -255,47 +274,47 @@
             { 
               id: "v1", title: "Porsche Panamera", brand: "汽车动态视频设计", 
               img: "https://i.postimg.cc/jdXbwCvQ/porsche.webp", 
-              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=116407555591280&bvid=BV1v7QjBiEYt&cid=37523032809&p=1" 
+              videoUrl: "https://player.bilibili.com/player.html?bvid=BV1v7QjBiEYt&page=1&high_quality=1&danmaku=0&autoplay=1" 
             },
             { 
               id: "v2", title: "建筑漫游", brand: "建筑漫游动态视频设计", 
               img: "https://i.postimg.cc/x8bw3YmL/jian-zhu-man-you.webp", 
-              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087854988764&bvid=BV1kggp6cEjt&cid=40875919034&p=1" 
+              videoUrl: "https://player.bilibili.com/player.html?bvid=BV1kggp6cEjt&page=1&high_quality=1&danmaku=0&autoplay=1" 
             },
             { 
               id: "v3", title: "扫地机器人", brand: "扫地机器人动态视频设计", 
               img: "https://i.postimg.cc/F152PqbL/sao-de-ji-qi-ren.webp", 
-              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087871699004&bvid=BV1pMgp6aEU7&cid=40875921331&p=1" 
+              videoUrl: "https://player.bilibili.com/player.html?bvid=BV1pMgp6aEU7&page=1&high_quality=1&danmaku=0&autoplay=1" 
             },
             { 
               id: "v4", title: "雪花啤酒", brand: "雪花啤酒动态视频设计", 
               img: "https://i.postimg.cc/LhKry7k3/xue-hua-pi-jiu.webp", 
-              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087871698951&bvid=BV1pMgp6aEUK&cid=40875920243&p=1" 
+              videoUrl: "https://player.bilibili.com/player.html?bvid=BV1pMgp6aEUK&page=1&high_quality=1&danmaku=0&autoplay=1" 
             },
             { 
               id: "v5", title: "RIO鸡尾酒", brand: "RIO鸡尾酒动态视频设计", 
               img: "https://i.postimg.cc/sD3FhF2k/RIO-ji-wei-jiu.webp", 
-              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087787812077&bvid=BV1JLgp6oEtq&cid=40875263174&p=1" 
+              videoUrl: "https://player.bilibili.com/player.html?bvid=BV1JLgp6oEtq&page=1&high_quality=1&danmaku=0&autoplay=1" 
             },
             { 
               id: "v6", title: "机械手表", brand: "机械手表动态设计", 
               img: "https://i.postimg.cc/fy0GfZdx/ji-xie-shou-biao.webp", 
-              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087771035346&bvid=BV1PUgp6NEhR&cid=40874213908&p=1" 
+              videoUrl: "https://player.bilibili.com/player.html?bvid=BV1PUgp6NEhR&page=1&high_quality=1&danmaku=0&autoplay=1" 
             },
             { 
               id: "v7", title: "XBOX游戏手柄", brand: "XBOX游戏手柄动态设计", 
               img: "https://i.postimg.cc/d3TbjvCd/XBOX-shou-bing.webp", 
-              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=117087452268426&bvid=BV1X3gW6EEDy&cid=40872447366&p=1" 
+              videoUrl: "https://player.bilibili.com/player.html?bvid=BV1X3gW6EEDy&page=1&high_quality=1&danmaku=0&autoplay=1" 
             },
             { 
               id: "v8", title: "室内可视化交互设计", brand: "室内交互设计", 
               img: "https://i.postimg.cc/g25J32x7/shinei.webp", 
-              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=317694844&bvid=BV1YP411W7Jc&cid=1246777944&p=1" 
+              videoUrl: "https://player.bilibili.com/player.html?bvid=BV1YP411W7Jc&page=1&high_quality=1&danmaku=0&autoplay=1" 
             },
             { 
               id: "v9", title: "奔驰交互设计", brand: "汽车交互设计", 
               img: "https://i.postimg.cc/W1K301dX/benz.webp", 
-              videoUrl: "https://player.bilibili.com/player.html?isOutside=true&aid=113577574795283&bvid=BV14tzZY7EYM&cid=27127451276&p=1" 
+              videoUrl: "https://player.bilibili.com/player.html?bvid=BV14tzZY7EYM&page=1&high_quality=1&danmaku=0&autoplay=1" 
             }
           ]
         },
@@ -581,18 +600,18 @@
             ref={containerRef}
             className="relative w-full h-full overflow-hidden select-none bg-slate-900 group"
           >
-            {/* 底层渲染图 (After) - 接收位移与缩放 */}
             <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
               <img 
                 src={after} 
                 alt={afterLabel} 
+                decoding="async"
+                onError={handleImageError}
                 className="w-full h-full object-contain pointer-events-none transition-transform duration-75 ease-out" 
                 draggable="false"
                 style={transformStyle}
               />
             </div>
             
-            {/* 顶层白模图 (Before) - 仅图片进行位移与缩放，裁剪区域固定在中框 sliderPos 处 */}
             <div 
               className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-10"
               style={{ clipPath: `polygon(0 0, ${sliderPos}% 0, ${sliderPos}% 100%, 0 100%)` }}
@@ -600,13 +619,14 @@
               <img 
                 src={before} 
                 alt={beforeLabel} 
+                decoding="async"
+                onError={handleImageError}
                 className="w-full h-full object-contain pointer-events-none transition-transform duration-75 ease-out" 
                 draggable="false"
                 style={transformStyle}
               />
             </div>
 
-            {/* 标签提示（固定在外框上，不随拖拽平移） */}
             <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full pointer-events-none font-medium border border-white/20 z-20">
               {beforeLabel}
             </div>
@@ -614,7 +634,6 @@
               {afterLabel}
             </div>
 
-            {/* 对比分割分割线手柄（永远钉在视口/框体对应 sliderPos 处，绝不随图片拖动跑偏） */}
             <div 
               className="slider-handle-line absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] cursor-ew-resize z-30"
               style={{ left: `${sliderPos}%` }}
@@ -644,7 +663,6 @@
         const dragStart = useRef({ x: 0, y: 0 });
         const backdropMouseDownRef = useRef(false);
 
-        // 切换新图或重新打开时，重置放缩倍数和平移坐标
         useEffect(() => {
           setScale(1);
           setPos({ x: 0, y: 0 });
@@ -658,7 +676,6 @@
           ? (parts[0] / parts[1]) 
           : (16 / 9);
 
-        // 滚轮缩放
         const handleWheel = (e) => {
           const delta = e.deltaY * -0.002;
           setScale(s => {
@@ -668,7 +685,6 @@
           });
         };
 
-        // 拖拽平移限制
         const handlePanMove = (e) => {
           if (dragRef.current && scale > 1) {
             const newX = e.clientX - dragStart.current.x;
@@ -702,7 +718,6 @@
             onMouseUpCapture={handlePanEnd}
             onMouseLeave={handlePanEnd}
           >
-            {/* 顶栏操作按钮 */}
             <div className="absolute top-6 flex items-center gap-4 bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 z-50 text-white shadow-2xl">
               <button onClick={() => setScale(s => {
                 const next = Math.max(1, s - 0.5);
@@ -723,7 +738,6 @@
               ✕
             </button>
             
-            {/* 外层绝对固定展示框（居中固守，外框和对比分割线绝不变动偏移） */}
             <div 
               className="relative flex items-center justify-center rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-slate-900"
               style={{
@@ -834,7 +848,6 @@
               title="关闭图片"
             >✕</button>
 
-            {/* 固定的视口外框容器 */}
             <div 
               className="relative max-w-[90vw] max-h-[85vh] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-slate-950 flex items-center justify-center"
               onMouseDown={(e) => {
@@ -852,6 +865,8 @@
               <img 
                 src={imgUrl} 
                 alt="Enlarged view" 
+                decoding="async"
+                onError={handleImageError}
                 draggable="false"
                 className="max-w-full max-h-[85vh] object-contain transition-transform duration-75 ease-out cursor-pointer" 
                 style={{
@@ -1063,7 +1078,13 @@
                     }
                   }}
                 >
-                  <img src={item.img} alt={item.title} loading="lazy" />
+                  <img 
+                    src={item.img} 
+                    alt={item.title} 
+                    loading="lazy" 
+                    decoding="async"
+                    onError={handleImageError} 
+                  />
                   {item.videoUrl && (
                     <div className="absolute top-2.5 right-2.5 bg-blue-600/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md backdrop-blur-sm flex items-center gap-1 z-10">
                       <span>▶</span> 视频
@@ -1211,7 +1232,7 @@
                           className="group px-7 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-full transition-all text-sm border border-slate-200 inline-flex items-center gap-2"
                         >
                           <span>查看完整作品集集锦</span>
-                          <svg className="w-4 h-4 text-slate-600 group-hover:text-slate-900 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-slate-600 group-hover:text-slate-900 group-hover:translate-x-1 transition-all" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                           </svg>
                         </button>
@@ -1270,7 +1291,14 @@
                               className="group cursor-pointer rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all bg-slate-50"
                             >
                               <div className="aspect-[16/9] overflow-hidden relative">
-                                <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                <img 
+                                  src={item.img} 
+                                  alt={item.title} 
+                                  loading="lazy" 
+                                  decoding="async"
+                                  onError={handleImageError}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                                />
                                 {item.videoUrl && (
                                   <div className="absolute top-3 right-3 bg-blue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-md">
                                     ▶ 视频
@@ -1325,6 +1353,9 @@
                             <img 
                               src={comp.after} 
                               alt={comp.afterLabel} 
+                              loading="lazy"
+                              decoding="async"
+                              onError={handleImageError}
                               className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" 
                             />
                             <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full font-medium border border-white/20">
@@ -1356,6 +1387,9 @@
                             <img 
                               src={imgUrl} 
                               alt={`视角 ${idx + 1}`} 
+                              loading="lazy"
+                              decoding="async"
+                              onError={handleImageError}
                               className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" 
                             />
                             <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full font-medium border border-white/20">
@@ -1410,7 +1444,7 @@
                       className="w-full h-full"
                       scrolling="no" 
                       frameBorder="0" 
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                       allowFullScreen={true}
                       referrerPolicy="no-referrer"
                     ></iframe>
