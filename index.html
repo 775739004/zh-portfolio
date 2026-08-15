@@ -1127,6 +1127,24 @@
           };
         }, []);
 
+        /* 核心修复：移动端点击进入图集后强制置顶，解决移动端页面高度骤减导致的自动贴底问题 */
+        useEffect(() => {
+          if (selectedProject) {
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+
+            // 针对移动端 Safari / 微信内置浏览器在 DOM Height 重新计算后的二次置顶修正
+            const timer = setTimeout(() => {
+              window.scrollTo(0, 0);
+              document.documentElement.scrollTop = 0;
+              document.body.scrollTop = 0;
+            }, 60);
+
+            return () => clearTimeout(timer);
+          }
+        }, [selectedProject]);
+
         const randomizedHeroItems = useMemo(() => {
           const allItems = portfolioCategories.flatMap(c => c.items);
           const shuffled = [...allItems];
@@ -1147,17 +1165,17 @@
           if (item.videoUrl) {
             setActiveVideo(item.videoUrl);
           } else {
-            setSavedScrollPos(window.scrollY);
+            setSavedScrollPos(window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0);
             setSelectedProject(item);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         };
 
         const handleBackFromDetail = () => {
+          const targetPos = savedScrollPos;
           setSelectedProject(null);
           setTimeout(() => {
-            window.scrollTo({ top: savedScrollPos, behavior: 'smooth' });
-          }, 50);
+            window.scrollTo({ top: targetPos, behavior: 'smooth' });
+          }, 60);
         };
 
         const handleHeroItemClick = (item) => {
